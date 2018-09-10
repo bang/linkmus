@@ -1,0 +1,2 @@
+# linkmus
+Javascript music player
