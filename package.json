@@ -1,0 +1,11 @@
+{
+  "name": "musiclink",
+  "version": "0.0.1",
+  "description": "creates HTML/javascript interface to access music through NFS",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Andre Carneiro",
+  "license": "ISC"
+}

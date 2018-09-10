@@ -1,0 +1,278 @@
+<!DOCTYPE HTML>
+<html>
+	<head>
+		<link rel="stylesheet" href="css/style.css">
+
+		<script src="js/util.js"></script>
+
+
+	</head>
+	
+	<body>
+
+
+		<div id="audioplayer" style="position: fixed; background-color: white;width:100%;margin-top: -8px; padding-bottom: 40px; padding-left: 40px;border: 1px solid black;">
+
+			<h1> PLAYER </h1>
+
+
+			
+			<div style="display: block; "><small id="song-name"><strong>Song name:</strong> <div style="display: inline;" id="songName"> </div>  </small></div>
+			<div id="timeline">
+				<div id="playhead"></div>
+			</div>
+		
+
+			<audio id="player" > Your browser does not support HTML5 audio. </audio>
+			
+			<div id="controls" class="controls">
+
+				<div id="div_play"> <button id="btn_play">Play</button> </div>
+				<div id="div_pause" style="display:none;"> <button id="btn_pause">Pause</button> </div>
+				<div id="div_stop" style="display:none;"> <button id="btn_stop">Stop</button> </div>
+				
+				<button id="btn_prev">Prev</button> 
+
+				<button id="btn_next">Next</button> 
+
+			</div>
+
+		</div>
+
+
+		<div id="list"></div>
+
+		
+
+		<script>
+			// Mock list
+			/*sources = [
+				{
+					'url':'mp3/AC_DC/Back In Black (Disc 8)/06 - Back In Black.mp3',
+					'songName':'Back In Black',
+					'artist':'AC_DC'
+				},
+				
+				{
+					'url':'mp3/AC_DC/Back In Black (Disc 8)/01 - Hells Bells.mp3',
+					'songName':'Hells Bells',
+					'artist':'AC_DC'
+				}
+			];*/
+
+			audio = document.querySelector('#player');
+			isPlaying = false;
+			index = 0;
+			
+			loadJSON('/list.json',function(response){
+				console.log(JSON.stringify(response));
+				
+				// Getting music list
+				sources = JSON.parse(response);
+			
+
+				//initialize by the first music
+				audio.src = sources[index].url;
+
+				//generating play list from 'sources'
+				genList(sources)
+
+				// Doing 'auto next' when the music is finished
+				audio.addEventListener('ended',function(){
+					lastIndex = sources.length;
+      				index = index + 1;
+      				audio.src=sources[index].url;
+      				play(index);
+    			},false);
+
+				// BUTTONS EVENTS
+
+				document.querySelector('#btn_play').addEventListener('click',function(){
+					
+					play(index);
+				});
+
+				document.querySelector('#btn_pause').addEventListener('click',function(){
+					pause();
+				});
+
+				document.querySelector('#btn_stop').addEventListener('click',function(){
+					stop();
+				});
+
+
+				document.querySelector('#btn_next').addEventListener('click',function(){
+					next();
+				});
+
+				document.querySelector('#btn_prev').addEventListener('click',function(){
+					prev();
+				});				
+
+
+				
+
+
+
+				// Treating 'play' event
+				audio.addEventListener('play',function(){
+					document.querySelector('#div_play').style.display="none";
+					document.querySelector('#div_pause').style.display="inline-block";
+					document.querySelector('#div_stop').style.display="inline-block";	
+				},false);
+
+				// Treating 'pause/stop' event
+				audio.addEventListener('pause',function(){
+					document.querySelector('#div_play').style.display="inline-block";
+					document.querySelector('#div_pause').style.display="none";
+					document.querySelector('#div_stop').style.display="none";	
+				},false);				
+
+				var duration;
+				audio.addEventListener('timeupdate',function() {
+					if( duration != undefined && duration != null && duration > 0){
+						var playPercent = 100 * (audio.currentTime / duration);
+						playhead.style.marginLeft = playPercent + "%";
+					}
+				}, false);
+
+				// Gets audio file duration
+				audio.addEventListener("canplaythrough", function () {
+					duration = audio.duration;
+				}, false);
+
+				timeline.addEventListener('mousedown',function(e) {
+					pause()
+					console.log("seekbar clicked")
+					var x = e.pageX - e.currentTarget.offsetLeft; 
+    				var y = e.pageY - e.currentTarget.offsetTop;
+    				console.log("x: " + x);
+    				console.log("y: " + y); 
+    				bRect = timeline.getBoundingClientRect();
+    				console.log("SIZE: " + bRect.width);
+    				barPercentOnClick = 100 * ( x / bRect.width );
+    				if(barPercentOnClick < 5) {
+    					barPercentOnClick = 5;
+    				}
+    				console.log("barPercentOnClick: " + barPercentOnClick)
+    				console.log("DURATION: " + duration);
+
+    				
+    				currentTime = (duration * barPercentOnClick) / 100
+     				if( currentTime > duration ){
+    					currentTime = duration
+    				}
+    				console.log("Current time: " + currentTime)
+    				var playPercent = 100 * (currentTime / duration);
+    				
+					playhead.style.marginLeft = ( playPercent ) + "%";
+
+					audio.currentTime = currentTime;
+
+
+				})
+
+				timeline.addEventListener('mousedown',function(e) {
+					play()
+				})
+
+
+			})
+
+			/*start the 'audio' player
+				Arguments:
+					index: (int) song index inside 'sources' array
+
+			*/
+			function play(pindex=0,changeSrc=false){
+				
+				//change source url only if needed. In this case, when some song from list is clicked.
+				if(changeSrc) {
+					audio.src = sources[pindex].url;					
+				}
+				songName = document.querySelector('#songName');
+				if(songName != undefined){
+					songName.innerHTML=sources[pindex].songName;
+				}
+				console.log("Playing " + pindex + " ...: " + sources[pindex].songName);
+				audio.play(pindex);
+				index = pindex;
+				isPlaying = true;
+			}
+
+			/*stop the audio player
+				Arguments: no arguments
+					
+
+			*/
+			function stop(){
+				isPlaying = false;
+				audio.pause();
+				audio.currentTime = 0;
+			}
+
+			/*pause the audio player
+				Arguments: no arguments
+					
+
+			*/
+			function pause(){
+				isPlaying = false;
+				console.log("Pausing " + index + " ...:")
+				audio.pause();
+			}
+
+			/*change to the previous song on playlist controled by 'index' variable. If 
+			music is the first song, previous will be the last music and so on.
+				Arguments: no arguments
+					
+
+			*/
+			function prev() {
+				index -= 1;
+				if(index < 0 ){
+					index = sources.length - 1;
+				}
+
+				audio.src=sources[index].url
+				play(index)
+			}
+
+			/*change to the next song on playlist controled by 'index' variable. If 
+			music is the last song, next will be the first music and so on.
+				Arguments: no arguments
+					
+
+			*/
+			function next() {
+				index += 1;
+				if(index > (sources.length - 1) ){
+					index = 0;
+				}
+				audio.src=sources[index].url
+				play(index)
+			}			
+
+			/*Generates a song's list based on JSON with metadata of the songs. This file is generated by 'link_creator.pl' script.
+
+			*/
+			function genList(sources) {
+				list = document.querySelector("#list")
+				listStr = "<table id='song-list'>"
+				fakeIndex = 1;
+				for( i in sources ){
+					console.log("Playing index - " + i);
+					source = sources[i]
+					listStr += "<tr><td>" + fakeIndex + ". </td><td><a href='javascript:null' id=" + i + " onclick='play(" + i + ",true)' >" + source['songName'] + "</a></td><td>" + source['artist'] + "</td><td>" + source['album'] + "</td></tr>"
+
+					fakeIndex += 1;
+				}
+				listStr += "</table>"
+				console.log(listStr)
+				list.innerHTML = listStr;
+			}
+
+		</script>
+		</div>
+	</body>
+</html>
