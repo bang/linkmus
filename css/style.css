@@ -1,7 +1,5 @@
 
 
-
-
 div {
 	display: inline-block;
 }
@@ -36,6 +34,9 @@ div.controls {
 	padding-bottom: 155px;
 }
 
+#list {
+	padding-top: 200px;
+}
 
 #controls {
 	padding-top: 50px;
