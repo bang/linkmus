@@ -499,7 +499,6 @@ function searchByTrack(word='',source={}){
 		document.querySelector('#search').innerHTML = ''
 		word = ''
 	}
-
 	
 	for( artist in source ){
 		for( album in sources[artist]) {
