@@ -1,5 +1,10 @@
 # linkmus
-	Personal Music player written with Javascript and served by Node with express.
+	Extreme simplory music player, but works... 
+
+## Description
+
+I wrote this crap to solve my personal problem to hate Spotify and online radio in general. My main go is to have my own music server. That's it!
+
 
 ## Version
 
@@ -9,16 +14,27 @@ v0.0.2
 
 * Express server for convenience(routes, file server, CORS, etc)
 
-* Searching engine totally made with *vanilla* Javascript
+* Searching engine(by album, artist or track name) totally made with *vanilla* Javascript
 
-* Next button ok
+* Player buttons controllers is ok except 'previous' button(see details in the 'Bug' section)
 
 * Player plays all full music list
+
+
+## Limitations
+
+* To ugly!
+
+* No themes support
+
+* No mobile support
+
 
 
 ## Bugs
 
 * previous button is not ok yet!
 
+* time animation is not tottaly right.
 
 
