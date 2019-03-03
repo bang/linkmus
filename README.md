@@ -3,7 +3,7 @@
 
 ## Description
 
-I wrote this crap to solve my personal problem to hate Spotify and online radio in general. My main go is to have my own music server. That's it!
+I wrote this crap to solve my personal problem to hate Spotify and online radio in general. My main goal is to have my own music server. That's it!
 
 
 ## Version
