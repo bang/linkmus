@@ -10,6 +10,14 @@ div.controls {
 
 
 
+#audioplayer {
+	position: fixed; 
+	background-color: white;
+	margin-top: -8px; 
+	padding-bottom: 40px; 
+	padding-left: 40px;
+	border: 1px solid black;
+}
 
 #timeline{
 				width: 420px;
@@ -35,7 +43,17 @@ div.controls {
 }
 
 #list {
-	padding-top: 200px;
+	padding-top: 20%;
+}
+
+li.album {
+	padding-top: 5%;
+}
+
+
+div.album-vertical-spacer {
+	padding-top: 3%;
+	padding-bottom: 3%;
 }
 
 #controls {

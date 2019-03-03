@@ -40,7 +40,6 @@ sub buildFileIndex {
 
  
 
-
 sub main {
 
   open my $fh, ">", "list.json" or die $!;
@@ -110,4 +109,5 @@ sub main {
 
 }
 
+ 
 main()

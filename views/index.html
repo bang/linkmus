@@ -1,0 +1,57 @@
+<!DOCTYPE HTML>
+<html>
+	<head>
+		<link rel="stylesheet" href="css/style.css">
+
+		<script src="js/util.js"></script>
+		
+
+	</head>
+	
+	<body>
+
+
+		<div id="audioplayer">
+
+			<h1> LinkMus - Links your music with you! </h1>
+
+
+			
+			<div style="display: block; "><small id="track-name"><strong>track name:</strong> <div style="display: inline;" id="trackName"> </div>  </small></div>
+			<div style="display: block; "><small id="track-artist"><strong>Artist:</strong> <div style="display: inline;" id="trackArtist"> </div>  </small></div>
+			<div id="timeline">
+				<div id="playhead"></div>
+			</div>
+		
+
+			<audio id="player" > Your browser does not support HTML5 audio. </audio>
+			
+			<div id="controls" class="controls">
+
+				<div id="div_play"> <button id="btn_play">Play</button> </div>
+				<div id="div_pause" style="display:none;"> <button id="btn_pause">Pause</button> </div>
+				<div id="div_stop" style="display:none;"> <button id="btn_stop">Stop</button> </div>
+				
+				<button id="btn_prev">Prev</button> 
+
+				<button id="btn_next">Next</button> 
+
+			</div>
+			<div> Search: <input type="search" id="search" default="track, artist or album" /></div>
+			<script>
+
+			</script>
+
+		</div>
+
+
+		<div id="list"></div>
+
+		
+
+
+		</div>
+
+		<script src="js/player.js"></script>
+	</body>
+</html>
