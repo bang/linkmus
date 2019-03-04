@@ -440,7 +440,7 @@ function searchByArtist(word='',source={}){
 
 	
 	for( artist in source ){
-		matches = artist.match(new RegExp('^(' + word + '.*?)$'))
+		matches = artist.match(new RegExp('^(' + word + '.*?)$','gi'))
 		
 		if(matches != null && matches.length > 0){
 			console.log("AKI, PORRA!")
@@ -472,7 +472,7 @@ function searchByAlbum(word='',source={}){
 	
 	for( artist in source ){
 		for( album in sources[artist]) {
-			matches = album.match(new RegExp('^.*?(' + word + '.*?)$'))
+			matches = album.match(new RegExp('^.*?(' + word + '.*?)$','gi'))
 			
 			if(matches != null && matches.length > 0){
 				results.push(album)
@@ -505,7 +505,7 @@ function searchByTrack(word='',source={}){
 			for(trackIndex in sources[artist][album]){
 				track = sources[artist][album][trackIndex]
 				//console.log("TRACK: " + JSON.stringify(track))
-				matches = track["trackName"].match(new RegExp('^.*?(' + word + '.*?)$'))		
+				matches = track["trackName"].match(new RegExp('^.*?(' + word + '.*?)$','gi'))		
 				if(matches != null && matches.length > 0){
 					results.push(track)
 				}
