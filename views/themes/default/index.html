@@ -1,0 +1,60 @@
+<!DOCTYPE HTML>
+<html>
+	<head>
+		<link rel="stylesheet" href="css/style.css">
+
+		<script src="js/util.js"></script>
+		
+
+	</head>
+	
+	<body>
+
+
+			<div class="top" id="thumb-mini" >
+
+				Crap!
+
+			</div>
+			
+			<div class="top" id="audioplayer" >
+							
+				<div>
+					<small><strong>Track name:</strong> <div class="player-track-info" id="track-name"> </div>  </small>
+				</div>
+				
+				<div>
+					<small><strong>Artist:</strong> <div class="player-track-info" id="track-artist"> </div>  </small>
+				</div>
+				
+				<div id="timeline"></div>
+				<div id="playhead"></div>				
+			
+				<audio id="player" > Your browser does not support HTML5 audio. </audio>
+
+				<div id="controls" class="controls">
+
+					<div class="player-control" id="div_play"> <button id="btn_play">Play</button> </div>
+					<div class="player-control"  id="div_pause" style="display:none;"> <button id="btn_pause">Pause</button> </div>
+					<div class="player-control"  id="div_stop" style="display:none;"> <button id="btn_stop">Stop</button> </div>
+					
+					<button id="btn_prev">Prev</button> 
+
+					<button id="btn_next">Next</button> 
+
+				</div>
+
+			</div>
+
+
+		<div id="search-box"> Search: <input type="text" id="search" default="track, artist or album" /></div>
+
+		<div id="list"></div>
+		
+
+
+	
+
+		<script src="js/player.js"></script>
+	</body>
+</html>

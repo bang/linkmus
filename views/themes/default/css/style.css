@@ -1,0 +1,89 @@
+
+html, body {
+    margin: 0;
+    padding: 0;
+}
+
+
+div.controls {
+	display: block;
+}
+
+
+
+
+div.top {
+	display: table-cell;
+	height: 150px;
+	border: 1px solid red;
+	width: 100vw;
+}
+
+
+#thumb-mini {
+	background-color: darkgray;
+	border: 1px solid red;
+	width: 10vw;
+}
+
+#audioplayer {
+	background-color: white;
+	border: 1px solid black;
+}
+
+#timeline{
+	width: 20vw;
+	height: 2px;
+	background: #dbdbdb;
+	margin-top: 1vh;
+}
+
+#playhead{
+	dispay:box;
+	width: 10px;
+	height: 10px;
+	background: black;
+	margin-top: -5px;
+	transform: rotate(45deg);
+}
+
+div.player-track-info {
+	display: inline-block;
+}
+
+#search-box {
+	padding-top:1vh;
+	font-size: 14pt;
+}
+
+
+#song-list {
+	padding-bottom: 155px;
+}
+
+#list {
+	padding-top: 20%;
+}
+
+li.album {
+	padding-top: 5%;
+}
+
+
+div.album-vertical-spacer {
+	padding-top: 3%;
+	padding-bottom: 3%;
+}
+
+div.player-control {
+	display:inline-block;
+}
+
+table {
+	background-color: lightgray;
+	
+}
+
+tr {
+	height: 80px;
+}

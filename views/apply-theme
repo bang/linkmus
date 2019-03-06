@@ -1,0 +1,9 @@
+
+rm css index.html js
+
+theme=$1
+echo "Applying theme ${theme}"
+
+ln -s themes/$theme/css .
+ln -s themes/$theme/js .
+ln -s themes/$theme/index.html .

@@ -14,10 +14,22 @@ router.get('/', function(req,res){
   res.sendFile(path + 'index.html');
 });
 
+router.get('/new-skeleton', function(req,res){
+  res.sendFile(path + 'new-skeleton.html');
+});
+
 // declare public directory to be used as a store for static files
 app.use('/mp3', express.static(__dirname + '/mp3'));
 
+// JS code( non-theme )
+app.use('/js', express.static(__dirname + '/js'))
+
+// JSON database files, config etc.
+app.use('/resources', express.static(__dirname + '/resources'))
+
 app.use(express.static(path));
+
+// site root
 app.use('/', router);
 
 app.listen(port, function () {
