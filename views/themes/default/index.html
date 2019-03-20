@@ -2,6 +2,7 @@
 <html>
 	<head>
 		<link rel="stylesheet" href="css/style.css">
+		<link rel="stylesheet" href="css/tabs.css">
 
 		<script src="js/util.js"></script>
 		
@@ -10,8 +11,8 @@
 	
 	<body>
 
-
-			<div class="top" id="thumb-mini" >
+		<div id="fixed-controllers" >
+			<div class="top" id="cover-thumb" >
 
 				Crap!
 
@@ -19,16 +20,21 @@
 			
 			<div class="top" id="audioplayer" >
 							
+				<div style="font-size: 120%;">
+					<strong><div class="player-track-info" id="track-artist"> </div></strong>
+				</div>
+
 				<div>
-					<small><strong>Track name:</strong> <div class="player-track-info" id="track-name"> </div>  </small>
+					<div class="player-track-info" id="track-name"> </div>  
+				</div>
+
+				<div id="timeline-container">
+					<div id="timeline">
+						<div id="playhead"></div>
+					</div>
+									
 				</div>
 				
-				<div>
-					<small><strong>Artist:</strong> <div class="player-track-info" id="track-artist"> </div>  </small>
-				</div>
-				
-				<div id="timeline"></div>
-				<div id="playhead"></div>				
 			
 				<audio id="player" > Your browser does not support HTML5 audio. </audio>
 
@@ -42,19 +48,86 @@
 
 					<button id="btn_next">Next</button> 
 
-				</div>
+					<div style="display: inline-block;" id="track-time">00:00</div>
+				</div> 
 
 			</div>
-
-
-		<div id="search-box"> Search: <input type="text" id="search" default="track, artist or album" /></div>
-
-		<div id="list"></div>
 		
+
+			<div id="search-box"> 
+				Search:
+				<div id="search-reduced" >
+					
+							<input type="search" id="search" placeholder="track, artist or album" />
+							<div id="search-results"></div>
+					
+				</div>
+				
+			</div>
+			
+
+		</div>
+		
+		<div id="cover-big">
+			<div id="list"></div>
+			<div id="play-list-area">
+				
+
+
+				<div class="css3-tabstrip">
+				    <ul>
+				        <li>
+				            <input type="radio" name="css3-tabstrip-0" checked="checked" id="css3-tabstrip-0-0" /><label for="css3-tabstrip-0-0">PlayList1</label>
+				            <div id='playlist1'></div>
+				        </li><li>
+				            <input type="radio" name="css3-tabstrip-0" id="css3-tabstrip-0-1" /><label for="css3-tabstrip-0-1">PlayList2</label>
+				            <div>
+				                <h3>Why do we use it?</h3>
+				                <p>It is a long established fact that a reader will be distracted 
+				                    by the readable content of a page when looking at its layout. 
+				                    The point of using Lorem Ipsum is that it has a more-or-less 
+				                    normal distribution of letters, as opposed to using 'Content 
+				                    here, content here', making it look like readable English. 
+				                    Many desktop publishing packages and web page editors 
+				                    now use Lorem Ipsum as their default model text, and a 
+				                    search for 'lorem ipsum' will uncover many web sites still 
+				                    in their infancy. Various versions have evolved over the 
+				                    years, sometimes by accident, sometimes on purpose 
+				                    (injected humour and the like).</p>
+				            </div>
+				        </li><li>
+				            <input type="radio" name="css3-tabstrip-0" id="css3-tabstrip-0-2" /><label for="css3-tabstrip-0-2">PlayList3</label>
+				            <div>
+				                <h3>Where does it come from?</h3>
+				                <p>Contrary to popular belief, Lorem Ipsum is not simply 
+				                    random text. It has roots in a piece of classical 
+				                    Latin literature from 45 BC, making it over 2000 years 
+				                    old. Richard McClintock, a Latin professor at Hampden-Sydney 
+				                    College in Virginia, looked up one of the more obscure 
+				                    Latin words, consectetur, from a Lorem Ipsum passage, 
+				                    and going through the cites of the word in classical 
+				                    literature, discovered the undoubtable source. Lorem 
+				                    Ipsum comes from sections 1.10.32 and 1.10.33 of "de 
+				                    Finibus Bonorum et Malorum" (The Extremes of Good and Evil) 
+				                    by Cicero, written in 45 BC. This book is a treatise on 
+				                    the theory of ethics, very popular during the Renaissance. 
+				                    The first line of Lorem Ipsum, "Lorem ipsum dolor sit amet..", 
+				                    comes from a line in section 1.10.32.</p>
+				            </div>
+				        </li>
+				    </ul>
+				</div>
+
+
+			</div>
+		</div>
+
+
 
 
 	
 
 		<script src="js/player.js"></script>
+		<script src="js/playlist.js"></script>
 	</body>
 </html>

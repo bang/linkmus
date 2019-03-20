@@ -1,16 +1,50 @@
 
+@font-face {
+	font-family: Quicksand;
+	src: url(/css/fonts/Quicksand/Quicksand-Light.ttf);
+}
+
 html, body {
     margin: 0;
     padding: 0;
+    font-family: 'Quicksand';
+}
+
+ul {
+	list-style: none;
+}
+
+a{
+	color: #242424;
+}
+
+a:link {
+	text-decoration: none;
+	color: #242424;
+}
+
+a:visited {
+	text-decoration: none;
+	color: #242424;
+}
+
+a:hover {
+	text-decoration: none;
+	color: #DBDBDB;
 }
 
 
-div.controls {
-	display: block;
+table {
+	background-color: lightgray;
+	
 }
 
 
-
+#fixed-controllers{
+	display: table-cell;
+	position:fixed;
+	z-index:10;
+}
 
 div.top {
 	display: table-cell;
@@ -20,70 +54,217 @@ div.top {
 }
 
 
-#thumb-mini {
+#cover-thumb {
 	background-color: darkgray;
 	border: 1px solid red;
 	width: 10vw;
+	min-width: 170px;
+}
+
+
+div.player-track-info {
+	display: inline-block;
+	color: #DBDBDB;
 }
 
 #audioplayer {
-	background-color: white;
 	border: 1px solid black;
+	background-image: linear-gradient(to right, #575758 , #121212);
+	padding-left: 2vh;
+	padding-top: 1vw;
 }
 
 #timeline{
 	width: 20vw;
-	height: 2px;
+	height: 1px;
 	background: #dbdbdb;
 	margin-top: 1vh;
+	padding-top: 2px;
 }
 
 #playhead{
 	dispay:box;
 	width: 10px;
 	height: 10px;
-	background: black;
+	background: #42b30b;
+	opacity: .95;
+	border: 1px solid lightblue;
 	margin-top: -5px;
 	transform: rotate(45deg);
+	box-shadow: 4px 1px 4px #494949;
 }
 
-div.player-track-info {
-	display: inline-block;
-}
-
-#search-box {
-	padding-top:1vh;
-	font-size: 14pt;
-}
-
-
-#song-list {
-	padding-bottom: 155px;
-}
-
-#list {
-	padding-top: 20%;
-}
-
-li.album {
-	padding-top: 5%;
-}
-
-
-div.album-vertical-spacer {
-	padding-top: 3%;
-	padding-bottom: 3%;
+div.controls {
+	display: block;
+	padding-top: 1vh;
 }
 
 div.player-control {
 	display:inline-block;
+	margin-top: 1vh;
 }
 
-table {
-	background-color: lightgray;
+
+#search-box {
+	margin:auto;
+    text-align:center;
+	padding-top:1.2vh;
+	width: 100%;
+	/*background-image: linear-gradient(to right, #6d6d6d , #dbdbdb);*/
+	background-color: #242424;
+	color: #DBDBDB;
+	font-size: 16pt;
+}
+
+#search-results {
+	height: 60vh;
+	overflow: none;
+	overflow-y: scroll;
+	/*border: 1px solid blue;*/
+	display: none;
+	text-align: left;
+	position: fixed;
+	background-color: #DBDBDB;
+	font-size: 10pt;
+}
+
+
+table.results{
+	color: #242424;
+	border-collapse: collapse;
+	width: 98%;
+	margin: 2px;
+	margin:0;
+}
+
+th.results {
+	font-weight: bold;
+	text-align: center;
+	font-size: 12pt;
+	/*position: relative;*/
+	position: sticky;
+	top:0;
+    background-color:#494949;
+    color: #DBDBDB;
+    z-index:5;
+}
+
+
+tr.results {
+	height: 1vh;
+}
+
+td.results {
+    border: 1px solid #b6b6b6;
+	padding-left: .5vw;
+}
+
+a.results:link {
+	color: #242424;
+	font-weight: normal;
+}
+
+a.results:visited {
+	color: #242424;
+	font-weight: normal;
+}
+
+a.results:hover {
+	text-decoration: none;
+	font-weight: bold;
+}
+
+/* Fix the result scroll on anchors target */
+*:target::before {
+  content: "";
+  display: block;
+  height: 250px; /* fixed header height*/
+}
+
+
+#search-reduced {
+	font-size: 14pt;
+	text-align: center;
+	width: 60vh;
+	display: inline-block;
+	padding-bottom: 12px;
+	text-align: left;
+}
+
+
+#search {
+	background-color: #DBDBDB;
+	border: none;
+	height: 40px;
+	width: 88%;
+	border-radius: 2px;
+	padding-left: 1vw;
+
+}
+
+
+#search::placeholder { 
+	font-size: 14pt;
+	color: #B6B6B6; 
+}
+
+
+#cover-big{
+	margin: 0;
+	width: 100vw;
+	height: 100%;
+	border: 1px solid green;
+	display: inline-flex;
+	background-image: linear-gradient(to right, #575758 , #121212);
+}
+
+
+#list {
+	padding-top: 20%;
 	
+	color: #B6B6B6;
+	width: 30vw;
+	display: inline-block;
 }
 
-tr {
-	height: 80px;
+
+#play-list-area {
+	padding-top: 20%;
+	padding-left: 1vw;
+	color: #B6B6B6;
+	width: 70vw;
+	display: inline-block;	
 }
+
+
+.list-artist-title {
+	font-size:150%;
+	font-weight: bold;
+}
+
+
+
+
+
+
+
+
+li.album {
+	padding-top: 2%;
+}
+
+
+div.album-vertical-spacer {
+	padding-top: 1%;
+	padding-bottom: 1%;
+}
+
+
+
+
+
+
+
+
+
+

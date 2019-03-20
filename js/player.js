@@ -34,7 +34,7 @@ audio = document.querySelector('#player');
 isPlaying = false;
 index = 0;
 currentTrack = undefined
-
+showHideSearch = false
 
 function isEmpty(obj) {
 	// Returns true if object is empty. Otherwise, returns false
@@ -48,7 +48,7 @@ function isEmpty(obj) {
 
 searchChars = []
 searchElement = document.querySelector('#search');
-
+searchResults = document.querySelector('#search-results')
 
 loadJSON('/resources/list.json',function(response){
 	//console.log(JSON.stringify(response));
@@ -89,8 +89,25 @@ loadJSON('/resources/list.json',function(response){
 			next()
 	},false);
 
-	// BUTTONS EVENTS
 
+	// TRACK TIME EVENTS
+	var duration;
+	audio.addEventListener('timeupdate',function(){
+	    var currTime = audio.currentTime; //song is object of audio.  song= new Audio();
+	    var formatedTime = formatTime(currTime)
+	    document.querySelector('#track-time').innerHTML = formatedTime;   //Id where i have to print the total duration of song.
+		
+		if( duration != undefined && duration != null && duration > 0){
+			var playPercent = 100 * (audio.currentTime / duration);
+			playhead.style.marginLeft = playPercent + "%";
+		}
+
+
+	},false);
+
+	
+
+	// BUTTONS EVENTS
 	document.querySelector('#btn_play').addEventListener('click',function(){
 		play(currentTrack);
 	});
@@ -102,7 +119,6 @@ loadJSON('/resources/list.json',function(response){
 	document.querySelector('#btn_stop').addEventListener('click',function(){
 		stop();
 	});
-
 
 	document.querySelector('#btn_next').addEventListener('click',function(){
 		next();
@@ -116,8 +132,6 @@ loadJSON('/resources/list.json',function(response){
 		document.querySelector("#track-artist").innerHTML = currentTrack.artist
 	});				
 
-
-	
 
 	// Treating 'play' event
 	audio.addEventListener('play',function(){
@@ -133,13 +147,7 @@ loadJSON('/resources/list.json',function(response){
 		document.querySelector('#div_stop').style.display="none";	
 	},false);				
 
-	var duration;
-	audio.addEventListener('timeupdate',function() {
-		if( duration != undefined && duration != null && duration > 0){
-			var playPercent = 100 * (audio.currentTime / duration);
-			playhead.style.marginLeft = playPercent + "%";
-		}
-	}, false);
+
 
 	// Gets audio file duration
 	audio.addEventListener("canplaythrough", function () {
@@ -169,9 +177,7 @@ loadJSON('/resources/list.json',function(response){
 		}
 		console.log("Current time: " + currentTime)
 		var playPercent = 100 * (currentTime / duration);
-		
 		playhead.style.marginLeft = ( playPercent ) + "%";
-
 		audio.currentTime = currentTime;
 
 
@@ -182,13 +188,28 @@ loadJSON('/resources/list.json',function(response){
 	})
 
 
+	function showHideSearchResults(force){
+		if( force == null) {
+			showHideSearch = !showHideSearch
+		}
+		else {
+			showHideSearch = force
+		}
+		console.log("showHideSearch: " + showHideSearch)
+		display = showHideSearch ? 'block' : 'none'
+		console.log("display: " + display)
+		document.querySelector('#search-results').style.display=display
+	}
+
 	//adding events for search - keypress
 	searchElement.addEventListener('keypress',function(e){
-		if(e.keyCode != 13) {	
+		
+		if(e.keyCode != 13 ) {	
 			searchChars.push(e.key )
 		}
-		
+		console.log(searchChars.length)
 		if(searchChars.length >= 3){
+			showHideSearchResults(true)	
 			word = searchChars.join('')
 			console.log("Searching for music... " + word)
 			console.log("By artist")
@@ -200,29 +221,35 @@ loadJSON('/resources/list.json',function(response){
 			
 			console.log("By track")
 			results.push(searchByTrack(word,sources))
+			if(searchResults == null){
+				searchResults = document.querySelector('#search-results')
+				showHideSearchResults(false)	
+			}
 			
-		}
-
-		if(e.keyCode == 13) {
-			document.querySelector('#search').value = ''
-			document.querySelector('#search').innerHTML = ''
-			searchChars = []
+			searchResults.innerHTML = getResultTracksList(results)
 		}
 	})
 
 	//adding events for search - keydown
 	searchElement.addEventListener('keydown',function(e){
 	
-		if(e.keyCode == 9){
+		if(e.keyCode == 9 || e.keycode == 27){
 			document.querySelector('#search').value = ''
-			document.querySelector('#search').innerHTML = ''
-			searchChars = []
+			searchChars = [];
+			word = searchChars.join('')
+			searchResults.innerHTML = "";
+			showHideSearchResults(false);	
 		}
 	
 		if(e.keyCode == 8){
+			console.log("popping... ")
 			searchChars.pop()
 			word = searchChars.join('')
 			searchByArtist(word)
+			console.log(searchChars.length)
+			if(searchChars.length < 3){
+				showHideSearchResults(false);
+			}
 		}
 
 	})	
@@ -238,19 +265,27 @@ function play(track,changeSrc=false){
 	if(track == undefined){
 		track = currentTrack
 	}
+
+	if (audio === undefined || audio == null) {
+		audio = document.querySelector('#player');
+	}
+
 	console.log("TRACK ON PLAY...: " + JSON.stringify(track))
 	//change source url only if needed. In this case, when some track from list is clicked.
 	if(changeSrc) {
 		audio.src = track.url;					
 	}
 	trackName = document.querySelector('#track-name');
+	trackArtist = document.querySelector('#track-artist');
 	if(trackName != undefined){
 		trackName.innerHTML=track.trackName;
 		trackArtist.innerHTML=track.artist;
 	}
 	console.log("Playing...: " + track.trackName);
+	console.log("URL...:" + track.url)
 	audio.play();
 	isPlaying = true;
+	currentTrack = track;
 	return true
 }
 
@@ -310,12 +345,9 @@ function prev() {
 	album = sources[artistName][albumName]
 	found = false;
 	previousTrack = {}
-	console.log("LENGTH: " + fullTracksList.length)
-	console.log( "COCO" + JSON.stringify(fullTracksList[3213]))
 	for(trackIndex = (fullTracksList.length - 1); trackIndex >= 0; trackIndex-- ){
 		track = fullTracksList[trackIndex]
 		if(found){
-			console.log("FOUND: " + track)
 			if(!isEmpty(track)){
 				previousTrack = track
 				currentTrack = previousTrack
@@ -332,8 +364,6 @@ function prev() {
 	if(isEmpty(previousTrack)){
 		previousTrack = currentTrack = fullTracksList[-1]
 	}
-
-	console.log("PREVIOUS TRACK: " + JSON.stringify(previousTrack))
 	play(previousTrack,true)
 }
 
@@ -354,7 +384,7 @@ function next() {
 	found = false;
 	nextTrack = {}
 	for(trackIndex in fullTracksList ){
-		console.log("trackIndex: " + trackIndex)
+		//console.log("trackIndex: " + trackIndex)
 		track = fullTracksList[trackIndex]
 		if(found){
 			console.log("FOUND: " + track)
@@ -374,7 +404,6 @@ function next() {
 	if(isEmpty(nextTrack)){
 		nextTrack = currentTrack = fullTracksList[0]
 	}
-
 	console.log("NEXT TRACK: " + JSON.stringify(nextTrack))
 	play(nextTrack,true)
 
@@ -396,17 +425,17 @@ function genList(sources,reference) {
 
 		case "artist": 
 			
-			listStr = "<ul>"
+			listStr = "<ul id='#full-music-list'>"
 			fakeIndex = 1;
 			for( artist in sources ){
-				listStr += "<li>" + artist + "<ul>"
+				listStr += '<li id="' + artist + '"><span class="list-artist-title">' + artist + '</span><ul>'
 				for(album in sources[artist] ){
 					listStr += "<li class='album'>" + album + "<div class='album-vertical-spacer'> &nbsp;</div><ul>"
 					for(trackIndex in sources[artist][album]){
 						track = sources[artist][album][trackIndex]
 						encodedData = Base64.encode(track.url + "|" + track.artist + "|" + track.album + "|" + track.trackName)
 						listStr += "<li class='track'> <a href='javascript:null' id=" + fakeIndex + " onclick=\"playAndMark(\'" + encodedData + "\')\" >" + track.trackName + "</a></li>"
-
+						fakeIndex += 1;
 					}
 					listStr += "</ul>"
 
@@ -417,7 +446,7 @@ function genList(sources,reference) {
 				source = sources[i]
 				listStr += "<tr><td>" + fakeIndex + ". </td><td><a href='javascript:null' id=" + i + " onclick='play(" + i + ",true)' >" + source['trackName'] + "</a></td><td>" + source['artist'] + "</td><td>" + source['album'] + "</td></tr>"*/
 				listStr += "</li>"
-				fakeIndex += 1;
+				
 			}
 			listStr += "</ul>"
 			break;
@@ -443,7 +472,6 @@ function searchByArtist(word='',source={}){
 		matches = artist.match(new RegExp('^(' + word + '.*?)$','gi'))
 		
 		if(matches != null && matches.length > 0){
-			console.log("AKI, PORRA!")
 			results.push(artist)
 		}
 	}
@@ -526,3 +554,28 @@ function searchByTrack(word='',source={}){
 
 
 
+//Time matters
+function formatTime(secs){
+	var hr  = Math.floor(secs / 3600);
+  	var min = Math.floor((secs - (hr * 3600))/60);
+  	var sec = Math.floor(secs - (hr * 3600) -  (min * 60));
+    min = min >= 10 ? min : '0' + min;    
+    sec = Math.floor( sec % 60 );
+    sec = sec >= 10 ? sec : '0' + sec;
+    return min + ':' + sec;
+}
+
+
+function getResultTracksList(results){
+	list = '<table class="results">'
+	list += '<tr class="results"><th class="results">Track Name</th><th class="results">Album</th><th class="results">Artist</th></tr>'
+	if(results != null){
+				
+		for( r in results){
+			track = results[r]
+			list += '<tr><td class="results"><a class="results" href="#' + track.trackName + '">' + track.trackName + '</a> </td><td class="results"> <a class="results" href="#"' + track.album + '>' + track.album + '</a> </td><td class="results"> <a class="results" href="#' + track.artist + '">' + track.artist + '</a></td></tr>'
+		}
+	}
+	list += '</table>'
+	return list
+}	
