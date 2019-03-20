@@ -2,10 +2,8 @@ use strict;
 use warnings;
 use feature qw/say/;
 use Data::Printer colored => 1;
-
 use File::Find::Rule;
 use Cwd;
-
 use JSON::XS;
 
 my $cwd = getcwd() . '/mp3';
@@ -15,8 +13,6 @@ my $filelist;
 
 sub buildFileIndex {
 
-    
-
     # File find rule
     my $excludeDirs = File::Find::Rule->directory
                               ->name('/', 'var', 'www', '.AppleDouble') # Provide specific list of directories to *not* scan
@@ -24,7 +20,7 @@ sub buildFileIndex {
                               ->discard;       # don't report it
 
     my $includeFiles = File::Find::Rule->file
-                             ->name('*.mp3'); # search by file extensions
+                             ->name('*.mp3','*.flac'); # search by file extensions
 
     # my @files = File::Find::Rule->or( $excludeDirs, $includeFiles )
     #                             ->in($cwd);
@@ -41,62 +37,64 @@ sub buildFileIndex {
  
 
 sub main {
+  my $debug = 1;
+  open my $fh, ">", "list-new.json" or die $!;
 
-  open my $fh, ">", "list.json" or die $!;
-
+  say "Building raw file list" if $debug;
   my @List = @{buildFileIndex()};
   my $re = qr!/home/andre/Projetos/Linkmus/!;
 
 #  say $fh '[';
+  # say "Processing list";
+  # say "List size: " . scalar(@List);
   my $struct = {};
   foreach my $l(@List){
     $l =~ s/$re//;
     my @Items = split m!/!,$l;
     my $len = scalar(@Items);
-    say "LINE: $l";
-    if($len > 0) {
-      my ($artist,$album_feature,$album,$track) = ('Unknown','Unknown','Unknown','Unknown');
+    #say "LINE: $l";
     
+    p @Items if $l =~ /live at do/i;
 
-      # if($len == 2) {
-      #   $track = $Items[1];
-      # }
-      # elsif($len == 3){
-      #   ($artist,$track) = ($Items[1],$Items[2]);
-      # }
-      if($len == 4){
-        ($artist,$album,$track) = ($Items[1],$Items[2],$Items[3]);
+    if($len > 0) {
+      my ($artist,$album,$track) = ($Items[1],$Items[-2],$Items[-1]);
+      
+      if($len >= 6){
+        ($artist,$album,$track) = ($Items[1],$Items[-3],$Items[-1]);
       }
-      elsif($len == 5){
-        ($artist,$album_feature,$album,$track) = ($Items[1],$Items[2],$Items[3],$Items[4]); 
+
+      if( $l =~ /live at do/i){
+        say "FUCK! $l"; 
+        say "CARALHO"; p @Items;
+        say "ARTIST: $artist\nALBUM: $album\nTRACK: $track";
       }
-      else { #ignoring 'exoteric' paths
-        next;
-      }
-      # elsif($len == 5){
-      #  ($artist,$album,$track) = ($Items[1],$Items[3],$Items[4]); 
-      # }
-      # elsif($len == 6){
-      #  ($artist,$album,$track) = ($Items[1],$Items[3],$Items[$len - 1]); 
-      # }
-      # else {
-      #   $track = $Items[$len - 1];
-      # }
+      
       if(defined($track) && length($track) > 0) {
         # removing crap from artist
         $artist =~ s/(|\s+(|-))discography.*$//i;
         
         # constructing the track struct
         $track =~ s/\.mp3//g;
+        my $year = $1 if $album =~ /^(\d+).*$/;
+        $year = 'no info' if( !defined($year) || $year eq '');
+        if($year){
+          $album =~ s/$year(\s|\s-|\.|\-|\s-(\s|))//;
+        }
+        $album =~ s/^-\s+//;
+
+        # Removing extension from track name
+        $track =~ s/\.(mp3|flac|ogg)$//;
+        
         my $link_struct = {
                           "url" => $l,
                           "artist" => $artist,
                           "album" => $album,
-                          "trackName" => $track
+                          "trackName" => $track,
+                          "year" => $year
                         };
-        if($album_feature ne 'Unknown'){
-          $link_struct->{'album_feature'} = $album_feature;
-        }
+        # if($album_feature ne 'Unknown'){
+        #   $link_struct->{'album_feature'} = $album_feature;
+        # }
 
         push @{$struct->{$artist}->{$album}} , $link_struct;
       }
@@ -104,9 +102,6 @@ sub main {
   }
 
   say $fh JSON::XS->new->pretty(1)->encode($struct) ;
-
-#  say $fh ']'
-
 }
 
  
