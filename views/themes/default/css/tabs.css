@@ -22,13 +22,20 @@
 .css3-tabstrip
 {
     width: 100%;
-    height: 220px;
+    height: 600px;
+    border-left: 2px solid transparent;
+    border-bottom: 2px solid transparent;
+    border-image: linear-gradient(183deg,green 0%,transparent 80%);
+    border-image-slice: 1;
+
 }    
+
+
  
 .css3-tabstrip ul,
 .css3-tabstrip li
 {
-    margin: 0;
+    margin: 10;
     padding: 0;
     list-style: none;
 }
@@ -82,7 +89,8 @@
     width: 100%;
     padding: 8px;
     overflow: auto;
-    background: #DDD;
+    /*background-color: transparent;*/
+    border:none;
     -moz-box-sizing: border-box;
     -webkit-box-sizing: border-box;
     box-sizing: border-box;
@@ -90,24 +98,36 @@
  
 .css3-tabstrip input[type="radio"] + label
 {
-    margin: 0 2px 0 0;
-    padding: 0 18px;
+    margin: 0;
+    padding: 0 48px;
     line-height: 32px;
-    background: #f1f1f1;
+    /*background: transparent;*/
+    color: #666666;
     text-align: center;
-    border-radius: 5px 5px 0 0;
+    border-radius: 0px 40px 0 0;
+    border-color: green;
+    /*border-bottom: none;*/
     cursor: pointer;
     -moz-user-select: none;
     -webkit-user-select: none;
     user-select: none;
 }
- 
+
+
+
+.css3-tabstrip input[type="radio"] + .first {
+    border-top-left-radius: 0;
+    border-left: none;
+    border-bottom-color: green;
+}
+
 .css3-tabstrip input[type="radio"]:checked + label
 {
     z-index: 1;
-    background: #fff;
-    border-bottom-color: #fff;
+/*    background: transparent;*/
+    border-bottom: none;
     cursor: default;
+    color: #DBDBDB;
 }
  
 .css3-tabstrip input[type="radio"]
@@ -130,3 +150,4 @@
     opacity: .5;
     cursor: no-drop;
 }
+

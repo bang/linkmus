@@ -40,6 +40,10 @@ table {
 }
 
 
+*:focus {
+    outline: none;
+}
+
 #fixed-controllers{
 	display: table-cell;
 	position:fixed;
@@ -119,22 +123,24 @@ div.player-control {
 #search-results {
 	height: 60vh;
 	overflow: none;
-	overflow-y: scroll;
+	overflow-x: hidden;
+	overflow-y: auto;
 	/*border: 1px solid blue;*/
 	display: none;
 	text-align: left;
 	position: fixed;
-	background-color: #DBDBDB;
+	background-color: transparent;
 	font-size: 10pt;
 }
 
 
 table.results{
+	margin:0;
 	color: #242424;
 	border-collapse: collapse;
-	width: 98%;
-	margin: 2px;
-	margin:0;
+	width: 100%;
+	min-width: 60vw;
+
 }
 
 th.results {
@@ -146,9 +152,13 @@ th.results {
 	top:0;
     background-color:#494949;
     color: #DBDBDB;
+    border-right: 2px solid green;
     z-index:5;
 }
 
+th.last {
+	border-right: none;
+}
 
 tr.results {
 	height: 1vh;
@@ -157,6 +167,19 @@ tr.results {
 td.results {
     border: 1px solid #b6b6b6;
 	padding-left: .5vw;
+}
+
+td.results:hover {
+	background-image: linear-gradient(to right,green,#121212);
+	color: #DBDBDB;
+}
+
+td.results:hover > a {
+	color: #DBDBDB;
+}
+
+td.results > a:hover {
+	color: #DBDBDB;
 }
 
 a.results:link {
@@ -221,9 +244,8 @@ a.results:hover {
 
 #list {
 	padding-top: 20%;
-	
 	color: #B6B6B6;
-	width: 30vw;
+	width: 60vw;
 	display: inline-block;
 }
 
@@ -237,14 +259,19 @@ a.results:hover {
 }
 
 
+.playlist-content {
+	background-color: transparent;
+	color: #DBDBDB;
+	/*border-top: 2px solid transparent;
+	border-image: linear-gradient(to right,green 0%,transparent 80%);
+	border-image-slice: 1;*/
+	border-top: 2px solid green;
+}
+
 .list-artist-title {
 	font-size:150%;
 	font-weight: bold;
 }
-
-
-
-
 
 
 

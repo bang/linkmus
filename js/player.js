@@ -11,8 +11,6 @@
 
 */
 
-
-
 // Mock list
 /*sources = [
 	{
@@ -28,13 +26,16 @@
 	}
 ];*/
 
-
 //GLOBALS
 audio = document.querySelector('#player');
 isPlaying = false;
 index = 0;
 currentTrack = undefined
 showHideSearch = false
+
+searchChars = []
+searchElement = document.querySelector('#search');
+searchResults = document.querySelector('#search-results')
 
 function isEmpty(obj) {
 	// Returns true if object is empty. Otherwise, returns false
@@ -44,11 +45,6 @@ function isEmpty(obj) {
     }
     return true;
 }
-
-
-searchChars = []
-searchElement = document.querySelector('#search');
-searchResults = document.querySelector('#search-results')
 
 loadJSON('/resources/list.json',function(response){
 	//console.log(JSON.stringify(response));
@@ -76,6 +72,7 @@ loadJSON('/resources/list.json',function(response){
 	//initialize by the first music
 	audio.src = currentTrack.url;
 	document.querySelector("#track-name").innerHTML = currentTrack.trackName
+	document.querySelector("#track-album").innerHTML = currentTrack.album
 	document.querySelector("#track-artist").innerHTML = currentTrack.artist
 
 	// Doing 'auto next' when the music is finished
@@ -88,7 +85,6 @@ loadJSON('/resources/list.json',function(response){
 			console.log(currentTrack)
 			next()
 	},false);
-
 
 	// TRACK TIME EVENTS
 	var duration;
@@ -104,8 +100,6 @@ loadJSON('/resources/list.json',function(response){
 
 
 	},false);
-
-	
 
 	// BUTTONS EVENTS
 	document.querySelector('#btn_play').addEventListener('click',function(){
@@ -179,13 +173,10 @@ loadJSON('/resources/list.json',function(response){
 		var playPercent = 100 * (currentTime / duration);
 		playhead.style.marginLeft = ( playPercent ) + "%";
 		audio.currentTime = currentTime;
-
-
-	})
-
-	timeline.addEventListener('mousedown',function(e) {
 		play()
 	})
+
+
 
 
 	function showHideSearchResults(force){
@@ -214,13 +205,11 @@ loadJSON('/resources/list.json',function(response){
 			console.log("Searching for music... " + word)
 			console.log("By artist")
 			results = searchByArtist(word,sources)
-			if(results == null || results.length == 0){
-				console.log("By album")
-				results = searchByAlbum(word,sources)
-			}
-			
+			console.log("By album")
+			concatArray(results,searchByAlbum(word,sources))
 			console.log("By track")
-			results.push(searchByTrack(word,sources))
+			concatArray(results,searchByTrack(word,sources))
+			
 			if(searchResults == null){
 				searchResults = document.querySelector('#search-results')
 				showHideSearchResults(false)	
@@ -251,17 +240,20 @@ loadJSON('/resources/list.json',function(response){
 				showHideSearchResults(false);
 			}
 		}
+		
+		word = document.querySelector('#search').value
+		if(word == '' || word === undefined || word == null){
+			showHideSearchResults(false)	
+		}
 
 	})	
-
 })
 
-/*start the 'audio' player
-	Arguments:
-		index: (int) track index inside 'sources' array
-
-*/
 function play(track,changeSrc=false){
+	/*Start the 'audio' player
+		Arguments:
+			index: (int) track index inside 'sources' array
+	*/
 	if(track == undefined){
 		track = currentTrack
 	}
@@ -277,9 +269,11 @@ function play(track,changeSrc=false){
 	}
 	trackName = document.querySelector('#track-name');
 	trackArtist = document.querySelector('#track-artist');
+	trackAlbum = document.querySelector('#track-album');
 	if(trackName != undefined){
 		trackName.innerHTML=track.trackName;
 		trackArtist.innerHTML=track.artist;
+		trackAlbum.innerHTML=track.album
 	}
 	console.log("Playing...: " + track.trackName);
 	console.log("URL...:" + track.url)
@@ -307,35 +301,29 @@ function playAndMark(base64EncodedString){
 	}
 }
 
-/*stop the audio player
-	Arguments: no arguments
-		
-
-*/
 function stop(){
+	/*Stop the audio player
+		Arguments: no arguments
+	*/
 	isPlaying = false;
 	audio.pause();
 	audio.currentTime = 0;
 }
 
-/*pause the audio player
-	Arguments: no arguments
-		
-
-*/
 function pause(){
+	/*Pause the audio player
+		Arguments: no arguments
+	*/
 	isPlaying = false;
 	console.log("Pausing " + index + " ...:")
 	audio.pause();
 }
 
-/*change to the previous track on playlist controled by 'index' variable. If 
-music is the first track, previous will be the last music and so on.
-	Arguments: no arguments
-		
-
-*/
 function prev() {
+	/*change to the previous track on playlist controled by 'index' variable. If 
+		music is the first track, previous will be the last music and so on.
+		Arguments: no arguments
+	*/
 	console.log("currentTrack" + JSON.stringify(currentTrack))
 	artistName = currentTrack["artist"]
 	albumName = currentTrack["album"]
@@ -367,13 +355,11 @@ function prev() {
 	play(previousTrack,true)
 }
 
-/*change to the next track on playlist controled by 'index' variable. If 
-music is the last track, next will be the first music and so on.
-	Arguments: no arguments
-		
-
-*/
 function next() {
+	/*change to the next track on playlist controled by 'index' variable. If 
+		music is the last track, next will be the first music and so on.
+			Arguments: no arguments
+	*/
 	console.log("currentTrack" + JSON.stringify(currentTrack))
 	artistName = currentTrack["artist"]
 	albumName = currentTrack["album"]
@@ -410,12 +396,10 @@ function next() {
 	return true
 }			
 
-
-
-/*Generates a track's list based on JSON with metadata of the tracks. This file is generated by 'link_creator.pl' script.
-
-*/
 function genList(sources,reference) {
+	/*Generates a track's list based on JSON with metadata of the tracks. This file is generated by 'link_creator.pl' script.
+
+	*/
 	if( reference == undefined ) {
 		reference = "artist"
 	}
@@ -430,11 +414,12 @@ function genList(sources,reference) {
 			for( artist in sources ){
 				listStr += '<li id="' + artist + '"><span class="list-artist-title">' + artist + '</span><ul>'
 				for(album in sources[artist] ){
-					listStr += "<li class='album'>" + album + "<div class='album-vertical-spacer'> &nbsp;</div><ul>"
+					listStr += '<li class="album" id="'+album+'"><a href="javascript:null" id="'+album+'"></a>' + album + '<div class="album-vertical-spacer"> &nbsp;</div><ul>'
 					for(trackIndex in sources[artist][album]){
 						track = sources[artist][album][trackIndex]
+						pseudoTrackid = getTrackPseudoId(track)
 						encodedData = Base64.encode(track.url + "|" + track.artist + "|" + track.album + "|" + track.trackName)
-						listStr += "<li class='track'> <a href='javascript:null' id=" + fakeIndex + " onclick=\"playAndMark(\'" + encodedData + "\')\" >" + track.trackName + "</a></li>"
+						listStr += "<li class='track'> <a href='javascript:null' id=" + pseudoTrackid + " onclick=\"playAndMark(\'" + encodedData + "\')\" >" + track.trackName + "</a></li>"
 						fakeIndex += 1;
 					}
 					listStr += "</ul>"
@@ -446,7 +431,6 @@ function genList(sources,reference) {
 				source = sources[i]
 				listStr += "<tr><td>" + fakeIndex + ". </td><td><a href='javascript:null' id=" + i + " onclick='play(" + i + ",true)' >" + source['trackName'] + "</a></td><td>" + source['artist'] + "</td><td>" + source['album'] + "</td></tr>"*/
 				listStr += "</li>"
-				
 			}
 			listStr += "</ul>"
 			break;
@@ -460,37 +444,39 @@ function genList(sources,reference) {
 }
 
 function searchByArtist(word='',source={}){
-	results = []
+	let results = []
 	if(word.length > 0 && document.querySelector('#search').value == ''){
-		console.log("Oooops! Trash on the searching box. Cleaning up!")
+		//"Oooops! Trash on the searching box. Cleaning up!
 		document.querySelector('#search').innerHTML = ''
 		word = ''
 	}
 
-	
 	for( artist in source ){
 		matches = artist.match(new RegExp('^(' + word + '.*?)$','gi'))
-		
 		if(matches != null && matches.length > 0){
-			results.push(artist)
+			for( album in sources[artist]) {
+				for(trackIndex in sources[artist][album]){
+					track = sources[artist][album][trackIndex]
+					//console.log("TRACK: " + JSON.stringify(track))
+					results.push(track)
+				}
+			}
 		}
 	}
 
 	if(results.length <= 0) {
-		console.log("Not found yet!")
+		console.log("Artist not found yet!")
 	}
 
 	else {
-		console.log("RESULTS: " + JSON.stringify(results))
+		console.log("RESULTS BY ARTIST: " + JSON.stringify(results))
 	}
 
 	return results
 }
 
-
-
 function searchByAlbum(word='',source={}){
-	results = []
+	let results = []
 	if(word.length > 0 && document.querySelector('#search').value == ''){
 		console.log("Oooops! Trash on the searching box. Cleaning up!")
 		document.querySelector('#search').innerHTML = ''
@@ -501,27 +487,25 @@ function searchByAlbum(word='',source={}){
 	for( artist in source ){
 		for( album in sources[artist]) {
 			matches = album.match(new RegExp('^.*?(' + word + '.*?)$','gi'))
-			
 			if(matches != null && matches.length > 0){
-				results.push(album)
+				results = sources[artist][album]
 			}
 		}
 	}
 
 	if(results.length <= 0) {
-		console.log("Not found yet!")
+		console.log("Album not found yet!")
 	}
 
 	else {
-		console.log("RESULTS: " + JSON.stringify(results))
+		console.log("RESULTS BY ALBUM: " + JSON.stringify(results))
 	}
 
 	return results
 }
 
-
 function searchByTrack(word='',source={}){
-	results = []
+	let results = []
 	if(word.length > 0 && document.querySelector('#search').value == ''){
 		console.log("Oooops! Trash on the searching box. Cleaning up!")
 		document.querySelector('#search').innerHTML = ''
@@ -542,40 +526,35 @@ function searchByTrack(word='',source={}){
 	}
 
 	if(results.length <= 0) {
-		console.log("Not found yet!")
+		console.log("No tracks found!")
 	}
 
 	else {
-		console.log("RESULTS: " + JSON.stringify(results))
+		console.log("RESULTS BY TRACK: " + JSON.stringify(results))
 	}
 
 	return results
 }
 
-
-
-//Time matters
-function formatTime(secs){
-	var hr  = Math.floor(secs / 3600);
-  	var min = Math.floor((secs - (hr * 3600))/60);
-  	var sec = Math.floor(secs - (hr * 3600) -  (min * 60));
-    min = min >= 10 ? min : '0' + min;    
-    sec = Math.floor( sec % 60 );
-    sec = sec >= 10 ? sec : '0' + sec;
-    return min + ':' + sec;
+function getTrackPseudoId(track){
+	trackPseudoId = track.artist + track.album + track.trackName 
+	trackPseudoId = trackPseudoId.replace(/\s|\.|\,|\'|\"/g,'')
+	return trackPseudoId
 }
-
 
 function getResultTracksList(results){
 	list = '<table class="results">'
-	list += '<tr class="results"><th class="results">Track Name</th><th class="results">Album</th><th class="results">Artist</th></tr>'
+	list += '<tr class="results"><th class="results">Track Name</th><th class="results">Album</th><th class="results last">Artist</th></tr>'
+	
 	if(results != null){
-				
 		for( r in results){
 			track = results[r]
-			list += '<tr><td class="results"><a class="results" href="#' + track.trackName + '">' + track.trackName + '</a> </td><td class="results"> <a class="results" href="#"' + track.album + '>' + track.album + '</a> </td><td class="results"> <a class="results" href="#' + track.artist + '">' + track.artist + '</a></td></tr>'
+			if(track != null && track != undefined){
+				trackPseudoId = getTrackPseudoId(track)
+				list += '<tr><td class="results"><a class="results" href="#' + trackPseudoId + '">' + track.trackName + '</a> </td><td class="results"> <a class="results" href="#'+track.album+'"' + track.album + '>' + track.album + '</a> </td><td class="results"> <a class="results" href="#' + track.artist + '">' + track.artist + '</a></td></tr>'
+			}
 		}
 	}
 	list += '</table>'
 	return list
-}	
+}

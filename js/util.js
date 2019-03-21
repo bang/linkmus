@@ -18,9 +18,7 @@ function loadJSON(url,callback) {
 //base64 stuff
 var Base64 = {
 
-
     _keyStr: "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=",
-
 
     encode: function(input) {
         var output = "";
@@ -146,4 +144,24 @@ var Base64 = {
         return string;
     }
 
+}
+
+
+//Time matters
+function formatTime(secs){
+    var hr  = Math.floor(secs / 3600);
+    var min = Math.floor((secs - (hr * 3600))/60);
+    var sec = Math.floor(secs - (hr * 3600) -  (min * 60));
+    min = min >= 10 ? min : '0' + min;    
+    sec = Math.floor( sec % 60 );
+    sec = sec >= 10 ? sec : '0' + sec;
+    return min + ':' + sec;
+}
+
+//concat two arrays
+function concatArray(a1,a2){
+    for( index in a2){
+        a1.push(a2[index])
+    }
+    return a1
 }
