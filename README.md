@@ -8,7 +8,7 @@ I wrote this crap to solve my personal problem to hate Spotify and online radio 
 
 ## Version
 
-v0.0.2
+v0.0.2-rc3
 
 ## Features
 
@@ -20,12 +20,13 @@ v0.0.2
 
 * Player plays all full music list
 
+* Player has time counter now
 
 ## Limitations
 
-* To ugly!
+* Less ugly!
 
-* No themes support
+* Pseudo-theme support. Working at
 
 * No mobile support
 
