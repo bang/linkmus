@@ -3,14 +3,17 @@
 	<head>
 		<link rel="stylesheet" href="css/style.css">
 		<link rel="stylesheet" href="css/tabs.css">
-
+		<script src="js/playlist.js"></script>
 		<script src="js/util.js"></script>
-		
-
 	</head>
 	
 	<body>
-
+		<script>
+			playlist = new Playlist()
+			playlist.store()
+			anotherPlaylist = playlist.retrieve(playlist.name)
+			console.log(anotherPlaylist)
+		</script>
 		<div id="fixed-controllers" >
 			<div class="top" id="cover-thumb" >
 
@@ -97,11 +100,9 @@
 		</div>
 
 
-
-
 	
-
 		<script src="js/player.js"></script>
-		<script src="js/playlist.js"></script>
+		<script src="js/search.js"></script>
+		
 	</body>
 </html>
