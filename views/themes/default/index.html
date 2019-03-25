@@ -3,14 +3,17 @@
 	<head>
 		<link rel="stylesheet" href="css/style.css">
 		<link rel="stylesheet" href="css/tabs.css">
-
+		<script src="js/playlist.js"></script>
 		<script src="js/util.js"></script>
-		
-
 	</head>
 	
 	<body>
-
+		<script>
+			playlist = new Playlist()
+			playlist.store()
+			anotherPlaylist = playlist.retrieve(playlist.name)
+			console.log(anotherPlaylist)
+		</script>
 		<div id="fixed-controllers" >
 			<div class="top" id="cover-thumb" >
 
@@ -51,7 +54,7 @@
 
 					<button id="btn_next">Next</button> 
 
-					<div style="display: inline-block;" id="track-time">00:00</div>
+					<div style="display: inline-block;" id="track-time">00:00</div> <div style="display: inline-block;">/</div> <div style="display: inline-block;" id="track-duration"> 00:00</div>
 				</div> 
 
 			</div>
@@ -65,43 +68,36 @@
 							<div id="search-results"></div>
 					
 				</div>
-				
+				<a id="test" href='#' onclick="scrollToTarget('list','AC_DCBacktracks(Disc25)17-BigGun')">CLICK ME TO SCROLL</a>
 			</div>
 			
 
 		</div>
-		
+		<div class="top-spacer">FUCK</div>
 		<div id="cover-big">
-			<div id="list"></div>
-			<div id="play-list-area">
-				
-
-
-				<div class="css3-tabstrip">
-				    <ul>
-				        <li>
-				            <input type="radio" name="css3-tabstrip-0" checked="checked" id="css3-tabstrip-0-0" /><label for="css3-tabstrip-0-0" class="first">PlayList1</label>
-				            <div id="playlist-1" class="playlist-content" style="border-top: 1px solid green;" >Playlist 1</div>
-				        </li><li>
-				            <input type="radio" name="css3-tabstrip-0" id="css3-tabstrip-0-1" /><label for="css3-tabstrip-0-1">PlayList2</label>
-				            <div id="playlist-2" class="playlist-content" style="border-top: 1px solid green;" >Playlist 2</div>
-				        </li><li>
-				            <input type="radio" name="css3-tabstrip-0" id="css3-tabstrip-0-2" /><label for="css3-tabstrip-0-2">PlayList3</label>
-				            <div id="playlist-3" class="playlist-content" style="border-top: 1px solid green;" >Playlist 3</div>
-				        </li>
-				    </ul>
+			<div id="cover-big-transparency" >
+				<div id="list"></div>
+				<div id="play-list-area">
+					<div class="css3-tabstrip">
+					    <ul>
+					        <li>
+					            <input type="radio" name="css3-tabstrip-0" checked="checked" id="css3-tabstrip-0-0" /><label for="css3-tabstrip-0-0" class="first">PlayList1</label>
+					            <div id="playlist-1" class="playlist-content" style="border-top: 1px solid green;" >Playlist 1</div>
+					        </li><li>
+					            <input type="radio" name="css3-tabstrip-0" id="css3-tabstrip-0-1" /><label for="css3-tabstrip-0-1">PlayList2</label>
+					            <div id="playlist-2" class="playlist-content" style="border-top: 1px solid green;" >Playlist 2</div>
+					        </li><li>
+					            <input type="radio" name="css3-tabstrip-0" id="css3-tabstrip-0-2" /><label for="css3-tabstrip-0-2">PlayList3</label>
+					            <div id="playlist-3" class="playlist-content" style="border-top: 1px solid green;" >Playlist 3</div>
+					        </li>
+					    </ul>
+					</div>
 				</div>
-
-
 			</div>
 		</div>
 
-
-
-
-	
-
 		<script src="js/player.js"></script>
-		<script src="js/playlist.js"></script>
+		<script src="js/search.js"></script>
+		
 	</body>
 </html>

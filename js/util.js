@@ -1,9 +1,13 @@
+
 function loadJSON(url,callback) {   
+    /* Yeah... CORS, blablabla... Fuck it! 
+    */
+
     if(!url){
         console.log("URL is empty!")
     }
     var xobj = new XMLHttpRequest();
-        xobj.overrideMimeType("application/json");
+    xobj.overrideMimeType("application/json");
     xobj.open('GET', url, true); // Replace 'my_data' with the path to your file
     xobj.onreadystatechange = function () {
           if (xobj.readyState == 4 && xobj.status == "200") {
@@ -15,9 +19,9 @@ function loadJSON(url,callback) {
  }
 
 
-//base64 stuff
-var Base64 = {
 
+var Base64 = {
+    /* Seems a good idea have this around */
     _keyStr: "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=",
 
     encode: function(input) {
@@ -149,6 +153,9 @@ var Base64 = {
 
 //Time matters
 function formatTime(secs){
+    /* Receives time in seconds and format values properly as a string like '%H:%m:%s'. Of course, hour component is just a whim
+    */
+
     var hr  = Math.floor(secs / 3600);
     var min = Math.floor((secs - (hr * 3600))/60);
     var sec = Math.floor(secs - (hr * 3600) -  (min * 60));
@@ -165,3 +172,21 @@ function concatArray(a1,a2){
     }
     return a1
 }
+
+// Check if object is empty
+function isEmpty(obj) {
+    // Returns true if object is empty. Otherwise, returns false
+    for(var key in obj) {
+        if(obj.hasOwnProperty(key))
+            return false;
+    }
+    return true;
+}
+
+// current dateTime
+function getCurrentDateTime(){
+    dateTime = new Date().toLocaleString('pt-BR',{"hour12": false});
+    dateTime = dateTime.replace(/\,/,'');
+    return dateTime
+}
+
