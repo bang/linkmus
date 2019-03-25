@@ -29,6 +29,10 @@ app.use('/js', express.static(__dirname + '/js'))
 // JSON database files, config etc.
 app.use('/resources', express.static(__dirname + '/resources'))
 
+
+app.use('/img', express.static(__dirname + '/img'))
+
+
 app.use(express.static(path));
 
 // site root

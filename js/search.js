@@ -26,71 +26,71 @@ function showHideSearchResults(force){
 		display = showHideSearch ? 'block' : 'none'
 		console.log("display: " + display)
 		document.querySelector('#search-results').style.display=display
+}
+
+//adding events for search - keydown
+searchElement.addEventListener('keydown',function(e){
+	word = document.querySelector('#search').value;
+	//checking tab
+	switch(e.keyCode){
+		case 9:
+			document.querySelector('#search').value = '';
+			showHideSearchResults(false);
+			word = ''								
+			break;
+		case 13:
+			if(word.length >= 3){
+				getResults(word)
+			}
+			else {
+				document.querySelector('#search').value = '';
+				showHideSearchResults(false)
+				word = ''
+			}
+			break;
+		default:
+			if(word.length >= 3){
+				getResults(word)
+			}
+			break;
+	}
+})
+
+searchElement.addEventListener('keyup',function(e){
+	word = document.querySelector('#search').value
+	console.log("keyup word: " + word)
+
+	//checking delete or backspace
+	if(e.keyCode == 8 || e.keyCode == 46){
+		word = document.querySelector('#search').value;
+		if(word == '' || word == null || word == undefined){
+			showHideSearchResults(false)
+		}
 	}
 
-	//adding events for search - keypress
-	searchElement.addEventListener('keypress',function(e){
-		
-		if(e.keyCode != 13 ) {	
-			searchChars.push(e.key )
-		}
-		console.log(searchChars.length)
-		if(searchChars.length >= 3){
-			showHideSearchResults(true)	
-			word = searchChars.join('')
-			console.log("Searching for music... " + word)
-			console.log("By artist")
-			results = searchByArtist(word,sources)
-/*			console.log("By album")
-			concatArray(results,searchByAlbum(word,sources))
-			console.log("By track")
-			concatArray(results,searchByTrack(word,sources))*/
-			
-			if(searchResults == null){
-				searchResults = document.querySelector('#search-results')
-				showHideSearchResults(false)	
-			}
-			
-			searchResults.innerHTML = getResultTracksList(results)
-		}
-	})
 
-	//adding events for search - keydown
-	searchElement.addEventListener('keydown',function(e){
-		
-		word = document.querySelector('#search').value
-		if(word == '' || word === undefined || word == null){
-			showHideSearchResults(false)	
-		}
-
-		if(e.keyCode == 9 || e.keycode == 27){
-			document.querySelector('#search').value = ''
-			searchChars = [];
-			word = searchChars.join('')
-			searchResults.innerHTML = "";
-			showHideSearchResults(false);	
-		}
-	
-		if(e.keyCode == 8){
-			console.log("popping... ")
-			searchChars.pop()
-			word = searchChars.join('')
-			//searchByArtist(word)
-			console.log(searchChars.length)
-			if(searchChars.length < 3){
-				showHideSearchResults(false);
-			}
-		}
-	})
+	console.log(word)
+})
 
 
-	searchElement.addEventListener('keyup',function(e){
-		
-		word = document.querySelector('#search').value
-		if(word == '' || word === undefined || word == null){
-			showHideSearchResults(false)	
-		}
-	})
+function getResults(word){
+	let results = searchByArtist(word,sources)
+	console.log("Searching for music... " + word)
+	console.log("By artist")
+	console.log("By album")
+	concatArray(results,searchByAlbum(word,sources))
+	console.log("By track")
+	concatArray(results,searchByTrack(word,sources))
+	if(results != null && results != undefined && results.length > 0){
+		searchResults.innerHTML = getResultTracksList(results);
+		showHideSearchResults(true);
+	}
+	else{
+		console.log("No results");
+		document.querySelector('#search').value = '';
+		showHideSearchResults(false)
+	}
+}
 
 function searchByArtist(word='',source={}){
 	let results = []
@@ -200,10 +200,23 @@ function getResultTracksList(results){
 			track = results[r]
 			if(track != null && track != undefined){
 				trackPseudoId = getTrackPseudoId(track)
-				list += '<tr><td class="results"><a class="results" href="#' + trackPseudoId + '">' + track.trackName + '</a> </td><td class="results"> <a class="results" href="#'+track.album+'"' + track.album + '>' + track.album + '</a> </td><td class="results"> <a class="results" href="#' + track.artist + '">' + track.artist + '</a></td></tr>'
+				list += '<tr><td class="results"><a class="results" href="#" onclick="scrollToTarget(\'list\',\'' + trackPseudoId + '\')">' + track.trackName + '</a> </td><td class="results"> <a class="results" href="#'+track.album+'"' + track.album + '>' + track.album + '</a> </td><td class="results"> <a class="results" href="#' + track.artist + '">' + track.artist + '</a></td></tr>'
 			}
 		}
 	}
 	list += '</table>'
 	return list
+}
+
+function scrollToTarget(divId,targetId){
+	const overflow = document.querySelector('#' + divId);
+	const anchor = document.getElementById(targetId); // for some reason querySelector is not working... 
+
+	// Get the bounding client rectangles for both
+	// the overflow container and the target anchor
+	const rectOverflow = overflow.getBoundingClientRect();
+	const rectAnchor = anchor.getBoundingClientRect();
+
+	// Set the scroll position of the overflow container
+	overflow.scrollTop = rectAnchor.top - rectOverflow.top;
 }
