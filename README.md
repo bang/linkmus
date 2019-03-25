@@ -61,7 +61,7 @@ v0.0.3
 		
 		`git clone git@github.com:bang/linkmus.git`
 
-		or download from [https://github.com/bang/linkmus/archive/master.zip](here)
+		or download from [here](https://github.com/bang/linkmus/archive/master.zip)
 
 	* Install Node and npm
 
