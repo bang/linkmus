@@ -3,11 +3,12 @@
 
 ## Description
 
-	I hate Spotify and internet radio in general. So, I decide to build this, mapping my music from my personal NAS using NFS and JSON.
+	I hate Spotify and internet radio in general. So, I decided to build this, 
+	mapping my music from my personal NAS using NFS and JSON.
 
-	After this, is just use some dynamic DNS or VPN provider and I can have my own 'Spotify' without annoying advertise and feature
-	limitations. And don't forget is all free!
-
+	After this, is just use some dynamic DNS or VPN provider and I can have my 
+	own 'Spotify' without annoying advertising nor limitations. And don't forget 
+	that is all free!
 	
 ## Version
 
