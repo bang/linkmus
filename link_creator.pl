@@ -42,20 +42,19 @@ sub main {
 
   say "Building raw file list" if $debug;
   my @List = @{buildFileIndex()};
-  my $re = qr!/home/andre/Projetos/Linkmus/!;
+  my $re = qr!/home/andre/Projetos/Linkmusk/!;
 
 #  say $fh '[';
   # say "Processing list";
   # say "List size: " . scalar(@List);
   my $struct = {};
+  my $tracksCounter = 0;
   foreach my $l(@List){
     $l =~ s/$re//;
     my @Items = split m!/!,$l;
     my $len = scalar(@Items);
     #say "LINE: $l";
     
-    p @Items if $l =~ /live at do/i;
-
     if($len > 0) {
       my ($artist,$album,$track) = ($Items[1],$Items[-2],$Items[-1]);
       
@@ -63,12 +62,6 @@ sub main {
         ($artist,$album,$track) = ($Items[1],$Items[-3],$Items[-1]);
       }
 
-      if( $l =~ /live at do/i){
-        say "FUCK! $l"; 
-        say "CARALHO"; p @Items;
-        say "ARTIST: $artist\nALBUM: $album\nTRACK: $track";
-      }
-      
       if(defined($track) && length($track) > 0) {
         # removing crap from artist
         $artist =~ s/(|\s+(|-))discography.*$//i;
@@ -97,11 +90,14 @@ sub main {
         # }
 
         push @{$struct->{$artist}->{$album}} , $link_struct;
+        $tracksCounter++;
       }
     }
   }
-
+  say "Tracks found: $tracksCounter";
+  say "Saving on 'list-new.json' file!";
   say $fh JSON::XS->new->pretty(1)->encode($struct) ;
+  say "Done!"
 }
 
  
