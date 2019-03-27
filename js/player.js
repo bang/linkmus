@@ -26,6 +26,8 @@
 	}
 ];*/
 
+
+
 //GLOBALS
 audio = document.querySelector('#player');
 isPlaying = false;

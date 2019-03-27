@@ -150,6 +150,12 @@ var Base64 = {
 
 }
 
+function getTrackPseudoId(track){
+    trackPseudoId = track.artist + track.album + track.trackName 
+    trackPseudoId = trackPseudoId.replace(/\s|\.|\,|\'|\"/g,'')
+    return trackPseudoId
+}
+
 
 //Time matters
 function formatTime(secs){
@@ -190,3 +196,32 @@ function getCurrentDateTime(){
     return dateTime
 }
 
+//check browser
+function checkBrowser() { 
+    browser = ''
+    if((navigator.userAgent.indexOf("Opera") || navigator.userAgent.indexOf('OPR')) != -1 ) 
+    {
+        browser = 'Opera';
+    }
+    else if(navigator.userAgent.indexOf("Chrome") != -1 )
+    {
+        browser = 'Chrome';
+    }
+    else if(navigator.userAgent.indexOf("Safari") != -1)
+    {
+        browser = 'Safari';
+    }
+    else if(navigator.userAgent.indexOf("Firefox") != -1 ) 
+    {
+         browser = 'Firefox';
+    }
+    else if((navigator.userAgent.indexOf("MSIE") != -1 ) || (!!document.documentMode == true )) //IF IE > 10
+    {
+      browser = 'IE'; 
+    }  
+    else 
+    {
+       browser = 'unknown';
+    }
+    return browser
+}

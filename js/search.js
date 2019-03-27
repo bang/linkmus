@@ -87,7 +87,6 @@ function getResults(word){
 	}
 	else{
 		console.log("No results");
-		document.querySelector('#search').value = '';
 		showHideSearchResults(false)
 	}
 }
@@ -185,11 +184,7 @@ function searchByTrack(word='',source={}){
 	return results
 }
 
-function getTrackPseudoId(track){
-	trackPseudoId = track.artist + track.album + track.trackName 
-	trackPseudoId = trackPseudoId.replace(/\s|\.|\,|\'|\"/g,'')
-	return trackPseudoId
-}
+
 
 function getResultTracksList(results){
 	list = '<table class="results">'
@@ -209,6 +204,8 @@ function getResultTracksList(results){
 }
 
 function scrollToTarget(divId,targetId){
+/*	console.log("DIV ID: " + divId)
+	console.log("TARGET ID: " + targetId)
 	const overflow = document.querySelector('#' + divId);
 	const anchor = document.getElementById(targetId); // for some reason querySelector is not working... 
 
@@ -218,5 +215,27 @@ function scrollToTarget(divId,targetId){
 	const rectAnchor = anchor.getBoundingClientRect();
 
 	// Set the scroll position of the overflow container
-	overflow.scrollTop = rectAnchor.top - rectOverflow.top;
+	console.log("CRAAAAP: ")
+	console.log(rectAnchor.top)
+	overflow.scrollTop = rectAnchor.top - window.scrollY;//- rectOverflow.top;
+	//element.getBoundingClientRect().top + window.scrollY
+	*/
+
+	hashtag = '#' + targetId
+	console.log(targetId)
+	element = document.getElementById(targetId)
+	console.log(element)
+	browser = checkBrowser()
+	element.style.textDecoration = 'underline'
+	element.style.textDecorationColor = 'green'
+	element.style.color = 'darkgreen'
+	
+	if( browser != 'Firefox'){
+		element.scrollIntoView('nearest');
+	}
+	else {
+		// Not working in Chrome. Fuck IE!
+		element.scrollIntoView({behavior: "smooth", block: "center", inline: "nearest"});
+	}
 }
+

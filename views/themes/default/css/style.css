@@ -11,8 +11,8 @@ html, body {
     overflow-y: hidden;
 }
 body {
-	background-color: #575758;
-
+	background-color: #3C3C3C;
+	overflow:hidden;
 	/*background-image: linear-gradient(to right, #575758 , #121212);*/
 }
 
@@ -291,16 +291,18 @@ border-radius: 10px;
 #list {
 	color: #B6B6B6;
 	width: 80vw;
-	height: 100vh;
+	height: 75vh;
 	overflow-y: auto;
 	overflow-x: hidden;
-	scroll-behavior: smooth;
+	-moz-scroll-behavior: smooth;
 	display: inline-block;
+	padding-top: 10px;
 }
 
 
 #play-list-area {
 	padding-left: 1vw;
+	padding-top: 10px;
 	color: #B6B6B6;
 	width: 70vw;
 	display: inline-block;	
@@ -356,11 +358,13 @@ li.track {
 li.track >a {
 	z-index: 1;
 	transition: .3s;
+	background-image: none;
 }
 
 li.track > a:link {
 	text-decoration: none;
 	color: #111111;
+	background-image: none;
 }
 
 li.track > a:visited {
@@ -380,8 +384,6 @@ li.track:hover{
 /*	background-position-y: 15px;*/
 	position: relative;
 	background-size: 50% 90%;
-	
-	
 	
 }
 

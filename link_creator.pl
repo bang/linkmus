@@ -42,7 +42,7 @@ sub main {
 
   say "Building raw file list" if $debug;
   my @List = @{buildFileIndex()};
-  my $re = qr!/home/andre/Projetos/Linkmusk/!;
+  #my $re = qr!/home/andre/Projetos/Linkmusk/!;
 
 #  say $fh '[';
   # say "Processing list";
@@ -50,7 +50,7 @@ sub main {
   my $struct = {};
   my $tracksCounter = 0;
   foreach my $l(@List){
-    $l =~ s/$re//;
+    $l =~ s/^.*mp3/mp3/;
     my @Items = split m!/!,$l;
     my $len = scalar(@Items);
     #say "LINE: $l";

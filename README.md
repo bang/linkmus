@@ -11,13 +11,13 @@
 	
 ## Version
 
-v0.0.3
+v0.0.3-rc2
 
 ## Features
 
-* I've changed project from Linkus to LinkmusK because I want to!
+* I've changed the project name from Linkus to LinkmusK because I wanted to!
 
-* Searching engine(by album, artist or track name) 
+* Searching engine(by album, artist or track name) fixed and tested on Chrome and Firefox
 
 * 'Almost' theme support
 
@@ -50,6 +50,7 @@ v0.0.3
 
 * When NFS fails everything is freezing. 
 
+* Search fails in some cases on Firefox(at working)
 
 ## Installing
 
@@ -78,11 +79,10 @@ v0.0.3
 	 
 ## Notes for this version
 
-* Searching engine is completly refactored
+* Searching engine tested on Chrome and Firefox(has issues yet. But much better!)
 
 * Appearance on default theme(actually is the only theme right now) is better
 
-* There is no playlist support yet as I said before!
 
 ## Author
 
