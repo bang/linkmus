@@ -12,7 +12,7 @@
 	
 ## Version
 
-v0.0.3-rc2
+v0.0.3-rc3
 
 ## Features
 
@@ -30,28 +30,6 @@ v0.0.3-rc2
 
 * Express server for convenience(routes, file server, CORS, etc). You can use any http server. Whatever...
 
-
-## Limitations
-
-* Less ugly!
-
-* Pseudo-theme support. Working at
-
-* Less ugly at the moment... come on! I'm not a designer!
-
-* Theme support must be better! Trying to improve my CSS
-
-* No mobile support
-
-* No playlist support(working at)
-
-## Bugs
-
-* player timeline animation is not tottaly right.
-
-* When NFS fails everything is freezing. 
-
-* Search fails in some cases on Firefox(at working)
 
 ## Installing
 
@@ -73,16 +51,57 @@ v0.0.3-rc2
 	* exec `forever app.js`
 
 
-2. Installing with another https
+2. Installing with another http server
 
-	* Google it!
+	* Google 'how to serve node app in nginx/apache/iis or whatever'! 
 
+
+3. Mapping NFS(Linux only)
+
+	* Enable NFS support on your NFS provider(NAS or wherever...)
+
+	* open 'get-music' script and edit 'mountpoint' variable
+
+	* run `./get-music` (root privileges/sudo is required)
+
+	* To generate a new JSON music list, run `perl link_creator.pl`
+
+	* move 'list-new.json' file to 'resources' directory
+
+4. Mapping music in another way
+	
+	* If you want to keep the same structure, you need to put all your mp3
 	 
 ## Notes for this version
 
-* Searching engine tested on Chrome and Firefox(has issues yet. But much better!)
+* Searching engine tested on Chrome and Firefox(has issues yet. But it's much better!)
 
 * Appearance on default theme(actually is the only theme right now) is better
+
+
+## Limitations
+
+* Less ugly!
+
+* Pseudo-theme support. Working at
+
+* Less ugly at the moment... 
+
+* Theme support must be better! Trying to improve my CSS
+
+* No mobile support
+
+* No playlist support(working at)
+
+* 'Smooth' search engine doesn't working in Chrome yet. But works!
+
+## Bugs
+
+* player timeline animation is not tottaly right.
+
+* When NFS fails everything is freezing. 
+
+* Search fails in some cases on Firefox(working at)
 
 
 ## Author
