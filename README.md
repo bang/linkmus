@@ -12,7 +12,7 @@
 	
 ## Version
 
-v0.0.3-rc3
+v0.0.3-rc1
 
 ## Features
 
