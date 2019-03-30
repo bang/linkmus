@@ -74,6 +74,8 @@ div.top {
 
 #cover-thumb {
 	background-color: darkgray;
+	background-size: 100% 100%;
+	background-repeat: no-repeat;
 /*	background-image: url('/mp3/Exodus/01 Studio/2005-Shovel Headed Kill Machine/cover-thumb.png');*/
 	width: 10vw;
 	min-width: 170px;
@@ -282,7 +284,7 @@ border-radius: 10px;
 	background-size: 100vw 100vh;
 	background-attachment: fixed;
 	background-position-y: 220px;
-	background-color: rgba(60,60,60,.7);	
+	background-color: rgba(60,60,60,.95);	
 	
 }
 
@@ -296,13 +298,14 @@ border-radius: 10px;
 	overflow-x: hidden;
 	-moz-scroll-behavior: smooth;
 	display: inline-block;
-	padding-top: 10px;
+	margin-top: 20px;
+
 }
 
 
 #play-list-area {
 	padding-left: 1vw;
-	padding-top: 10px;
+	margin-top: 20px;
 	color: #B6B6B6;
 	width: 70vw;
 	display: inline-block;	
@@ -355,24 +358,47 @@ li.track {
 	transition: .3s;
 }
 
-li.track >a {
+div.track-matters {
+	margin: 0;
+	width: 98%;
+	height: 100%;
+	display: block;
+}
+
+div.track-matters-link, div.track-matters-actions{
+	display: inline-block;
+}
+
+div.track-matters-link {
+	width: 40%;
+}
+
+div.track-matters-actions {
+
+}
+
+
+
+
+
+li.track * a  {
 	z-index: 1;
 	transition: .3s;
 	background-image: none;
 }
 
-li.track > a:link {
+li.track * a:link {
 	text-decoration: none;
 	color: #111111;
 	background-image: none;
 }
 
-li.track > a:visited {
+li.track * a:visited {
 	text-decoration: none;
 	color: yellow;
 }
 
-li.track > a:hover {
+li.track * a:hover {
 	text-decoration: none;
 	color: #B6B6B6;
 }

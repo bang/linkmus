@@ -34,9 +34,9 @@ searchElement.addEventListener('keydown',function(e){
 	//checking tab
 	switch(e.keyCode){
 		case 9:
+			word = ''								
 			document.querySelector('#search').value = '';
 			showHideSearchResults(false);
-			word = ''								
 			break;
 		case 13:
 			if(word.length >= 3){
@@ -195,7 +195,7 @@ function getResultTracksList(results){
 			track = results[r]
 			if(track != null && track != undefined){
 				trackPseudoId = getTrackPseudoId(track)
-				list += '<tr><td class="results"><a class="results" href="#" onclick="scrollToTarget(\'list\',\'' + trackPseudoId + '\')">' + track.trackName + '</a> </td><td class="results"> <a class="results" href="#'+track.album+'"' + track.album + '>' + track.album + '</a> </td><td class="results"> <a class="results" href="#' + track.artist + '">' + track.artist + '</a></td></tr>'
+				list += '<tr><td class="results"><a class="results" href="javascript:" onclick="scrollToTarget(\'list\',\'' + trackPseudoId + '\')">' + track.trackName + '</a> </td><td class="results"> <a class="results" href="javascript:" onclick="scrollToTarget(\'list\',\'' + track.album + '\')" >' + track.album + '</a> </td><td class="results"> <a class="results" href="javascript:" onclick="scrollToTarget(\'list\',\'' + track.artist + '\')">' + track.artist + '</a></td></tr>'
 			}
 		}
 	}
@@ -204,24 +204,6 @@ function getResultTracksList(results){
 }
 
 function scrollToTarget(divId,targetId){
-/*	console.log("DIV ID: " + divId)
-	console.log("TARGET ID: " + targetId)
-	const overflow = document.querySelector('#' + divId);
-	const anchor = document.getElementById(targetId); // for some reason querySelector is not working... 
-
-	// Get the bounding client rectangles for both
-	// the overflow container and the target anchor
-	const rectOverflow = overflow.getBoundingClientRect();
-	const rectAnchor = anchor.getBoundingClientRect();
-
-	// Set the scroll position of the overflow container
-	console.log("CRAAAAP: ")
-	console.log(rectAnchor.top)
-	overflow.scrollTop = rectAnchor.top - window.scrollY;//- rectOverflow.top;
-	//element.getBoundingClientRect().top + window.scrollY
-	*/
-
-	hashtag = '#' + targetId
 	console.log(targetId)
 	element = document.getElementById(targetId)
 	console.log(element)
