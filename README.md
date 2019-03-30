@@ -53,7 +53,7 @@ v0.0.3-rc3
 
 2. Installing with another http server
 
-	* Google 'how to serve node app in nginx/apache/iis or whatever'! 
+	* Google 'how to config a javascript app + SOME HTTP SERVER' (SOME HTTP SERVER = http-lite, nginx, apache, iis, etc)! 
 
 
 3. Mapping NFS(Linux only)
