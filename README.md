@@ -6,17 +6,16 @@
 	Since that I decide that I'm done with "free" music radios I've been building this 
 	modest but sincer music player for my and my family's enjoyment.
 	
-	I hope nothing special, just enough and if possible with a cool design(according my taste)
+	I hope nothing special, just a simple solution for listen my music wherever I am.
 	
-	The system is very simple! There is a JSON file with all music. System loads this file
-	and builds a "tree of music" hierarchically divided by artist > album > track. Everything else is
+	Resuming, it works like this: There is a JSON file with all music('resources/list.json'). System loads this file
+	and builds a "tree of music" hierarchically divided by: artist > album > track. Everything else is
 	around of this including searching engine, playlists and music player itself.
 	
 	The music player can receive music from the main tree or from **active playlist**. But, if there is no 
-	active playlist set player starts from the first music of the "tree".
+	active playlist, the player starts from the first music of the "tree".
 	
-	Playlists is a list of tracks choosed from the "tree". For now it's possible just 3 playlists. In the
-	sooner future I hope this can limit grows to 8. 
+	Playlists is a list of tracks choosed from the "tree". For now it's possible just 3 playlists. 
 	
 	
 
@@ -26,7 +25,7 @@ v0.0.3-rc3
 
 ## Features
 
-* Searching engine(by album, artist or track name). Some issues but works...
+* Searching engine(by album, artist or track name). Some issues yet, but works...
 
 * 'Almost' theme support
 
@@ -46,10 +45,10 @@ v0.0.3-rc3
 
 # Pre-reqs
 
-
-
 * Linux - Debian variants if it's possible
-* Node + express + forever for backend - Again, you can use whatever you want but I made using Node.
+
+* Node + express + forever for backend - Again, you can use whatever you want but I made it using Node(not required, but this is default).
+
 * local or remote music location mapped on 'mp3' directory
 
 
@@ -77,11 +76,18 @@ v0.0.3-rc3
 
     
 
-  * Open app.js and config the port. 
-
-    
+  * Open app.js and config the port
+  
+  
+  * Supposing your music location is available on 'mp3' directory just the exec Perl script called `link_creator.pl`. This will
+  create a JSON file called `list-new.json`. Check this file and if it's allright, copy this file to `resources` directory as
+  `list.json`
+   
 
   * exec `forever app.js`
+  
+  
+  * You're done!
 
     
 
@@ -99,25 +105,19 @@ v0.0.3-rc3
 
   
 
-  * Enable NFS support on your NFS provider(NAS or wherever...), and don't forget to configure the permissions!
+  * Enable NFS support on your NFS provider(NAS or whatever...), and don't forget to configure the permissions!
 
   * open 'get-music' script and edit '$mountpoint' variable
 
-  * run `./get-music` (root privileges/sudo is required)
+  * run `./get-music` (root privileges/sudo is probably required)
 
-  * To generate a new JSON music list, run `perl link_creator.pl`
-
-  * move 'list-new.json' file to 'resources' directory
-
-    
 
   
 ## Notes for this version
 
 * Searching engine tested on Chrome and Firefox(has issues yet. But it's much better!)
 
-* Appearance on default theme(actually is the only theme right now) is better
-
+* Appearance improved
   
 
 
@@ -135,7 +135,7 @@ v0.0.3-rc3
 
 * No playlist support(working at)
 
-* 'Smooth' search engine doesn't working in Chrome yet. But works!
+* 'Smooth' scrolling after search results doesn't working in Chrome yet. Just 'jump' to results!
 
   
 
@@ -143,10 +143,9 @@ v0.0.3-rc3
 
 * player timeline animation is not tottaly right.
 
-* When NFS fails everything is freezing. 
+* Everything freeze if tree of music loading fails;
 
-* Search fails in some cases on Firefox(working at)
-
+* Search engine fails in some cases on Firefox(working at)
   
 
 
@@ -158,9 +157,10 @@ Andre Garcia Carneiro bang@github.com
 
 ## License
 
+Copyright 2019 André Garcia Carneiro
+
 You can copy, modify and distribute just for **non-commercial** purposes.
 
 
 
-Copyright 2019 André Garcia Carneiro
 
