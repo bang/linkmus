@@ -30,16 +30,28 @@
 
 //GLOBALS
 audio = document.querySelector('#player');
+var duration;
 isPlaying = false;
 index = 0;
 currentTrack = undefined
 activePlaylist = undefined
+currentTrackslist = undefined
+listOfMarked = {}
+showAlert = false;
+markedCount = 0;
+markedListenerFlag = false;
+document.querySelector('#marked-counter').innerHTML = 0
+
 
 // Everything starts after full list of music is loaded
 loadJSON('/resources/list.json',function(response){
 	//console.log(JSON.stringify(response));
+
+	// CHECK response errors
+
+	// TODO - CHECK IF THERE IS SOME PLAYLIST STORED!
 	
-	// Creating 3 empty playlists
+	// Creating 3 empty playlists(tabs playlist)
 	Playlists = []
 	for(i in new Array(1,2,3)){
 		index = parseInt(i) + 1;
@@ -63,16 +75,63 @@ loadJSON('/resources/list.json',function(response){
 		}
 	}
 
-	//generating play list from 'sources'
+	/* TODO - CHECK IF THERE IS PLAYLISTS WITH MUSIC
+
+		IF YES, set activePlaylist and currentTrackslist
+
+		IF NOT, set currentTrackslist with fullTracksList
+	*/
+
+	// set current tracks list
+	currentTracksList = fullTracksList
+
+	console.log("currentTrackslist")
+	console.log(currentTrackslist)
+
+	//generating play list with all music
 	genList(fullTracksList,"artist")
 
-	//initialize by the first music
+	// Adding listener for all this suckers!
+	matches = document.querySelectorAll('li.track')
+	
+	for (var i = 0; i < matches.length; i++) {
+		element = matches[i]
+	    element.addEventListener('mouseup', function (event) {
 
+	    	element = this
+			//getting anchor inside the object with track data
+			let anchor = element.querySelector('a')
+			track = JSON.parse(Base64.decode( anchor.getAttribute('trackData') ))
+			
+			/*this.classList.forEach( function(item,index){*/
+			
+			if(this.classList.contains('marked')){
+				element.classList.remove('marked')
+				delete listOfMarked[track.fingerprint]
+				console.log("somebody clicks to unmark!")
+				updateMarkedCounter('--')
+			}
+			else {
+				element.classList.add('marked');
+				listOfMarked[track.fingerprint] = track
+				console.log("somebody clicks to mark!")
+				updateMarkedCounter('++')
+			}		
+			console.log(listOfMarked)
+	    });
+	}
+
+	//initialize by the first music
 	audio.src = currentTrack.url;
 	
 	document.querySelector("#track-name").innerHTML = currentTrack.trackName
 	document.querySelector("#track-album").innerHTML = currentTrack.album
 	document.querySelector("#track-artist").innerHTML = currentTrack.artist
+
+	// 
+	document.querySelector("#alert").addEventListener('click', function(e) {
+		showHideAlert()
+	})
 
 	// Doing 'auto next' when the music is finished
 	audio.addEventListener('ended',function(){
@@ -154,9 +213,6 @@ loadJSON('/resources/list.json',function(response){
 		if(barPercentOnClick < 5) {
 			barPercentOnClick = 5;
 		}
-		/*console.log("barPercentOnClick: " + barPercentOnClick)
-		console.log("DURATION: " + duration);*/
-
 		
 		currentTime = (duration * barPercentOnClick) / 100
 			if( currentTime > duration ){
@@ -172,16 +228,96 @@ loadJSON('/resources/list.json',function(response){
 })
 
 
+function updateMarkedCounter(criteria,value=0){
+	let counterElement = document.querySelector('#marked-counter')
+	let currentValue = parseInt(counterElement.innerHTML)
+	counterElement.innerHTML = ''
+	let newValue = undefined
+	
+	if(currentValue == undefined || currentValue == ''){
+		currentValue = 0
+	}
+
+	if(criteria){
+		switch(criteria){
+			case '++':
+
+				console.log("I'm incrementating")			
+				newValue = currentValue += 1;
+				break;
+
+			case '--':
+				console.log("I'm decrementating")			
+				newValue = currentValue -= 1;
+				break;
+
+			case 'direct':
+				newValue = value
+			
+			default: console.error("invalid criteria for updateMarkedCounter! '" + criteria + "'")
+		}
+		counterElement.innerHTML = ''
+		counterElement.innerHTML = parseInt(newValue)
+		if(newValue > 0){
+			element = document.querySelector('.marked-control')
+			element.style.display = 'block'
+			element.style.opacity = 1
+			element.style.marginTop = 0
+			if(!markedListenerFlag){
+				markedListenerFlag = true
+				document.querySelector('#marked-add').addEventListener("mouseup", function(e){
+					console.log("adding tracks...")
+					tracks = []
+					for(key in listOfMarked){
+						track = listOfMarked[key]
+						tracks.push(track)
+					}
+					console.log("TRACKS ON MARKED-ADD: ")
+					console.log(tracks)
+					activePlaylist.addTracks(tracks)
+					console.log("ACTIVE PLAYLIST")
+					console.log(activePlaylist)
+					matches = activePlaylist.name.match(/(\d)+/)
+					tabId = "tab" + matches[0]
+					activePlaylist.render(tabId)
+				})
+			}
+		}
+		else {
+			element = document.querySelector('.marked-control')
+			element.style.display = 'block'
+			element.style.opacity = 0
+			element.style.marginTop = "-60px"
+		}
+	}
+	else {
+		console.error("Criteria not defined on updateMarkedCounter")
+	}
+
+
+
+}
 
 
 
 
-
-function play(track,changeSrc=false){
+function play( track, 
+				changeSrc=false, 
+				tracksList=undefined ){
 	/*Start the 'audio' player
 		Arguments:
-			index: (int) track index inside 'sources' array
+			track: (Object) - track information(required)
+
+			changeSrc: (Boolean) - set if src parameter of 'audio' element will be changed(not required, default = false)
+
+			tracksList: (Array) - if it's set change global var currentTracksList to tracksList object( not required, default = undefined)
 	*/
+	console.log("ON PLAY TRACKS LIST: ")
+	console.log(tracksList)
+	if(tracksList != undefined){
+		currentTracksList = tracksList
+	}
+	
 	if(track == undefined){
 		track = currentTrack
 	}
@@ -256,8 +392,8 @@ function prev() {
 	album = sources[artistName][albumName]
 	found = false;
 	previousTrack = {}
-	for(trackIndex = (fullTracksList.length - 1); trackIndex >= 0; trackIndex-- ){
-		track = fullTracksList[trackIndex]
+	for(trackIndex = (currentTracksList.length - 1); trackIndex >= 0; trackIndex-- ){
+		track = currentTracksList[trackIndex]
 		if(found){
 			if(!isEmpty(track)){
 				previousTrack = track
@@ -273,7 +409,7 @@ function prev() {
 	}	
 
 	if(isEmpty(previousTrack)){
-		previousTrack = currentTrack = fullTracksList[-1]
+		previousTrack = currentTrack = currentTracksList[-1]
 	}
 	play(previousTrack,true)
 }
@@ -289,12 +425,12 @@ function next() {
 	trackName = currentTrack["trackName"]
 
 	// from current track find the music
-	album = sources[artistName][albumName]
+	//album = sources[artistName][albumName]
 	found = false;
 	nextTrack = {}
-	for(trackIndex in fullTracksList ){
+	for(trackIndex in currentTracksList ){
 		//console.log("trackIndex: " + trackIndex)
-		track = fullTracksList[trackIndex]
+		track = currentTracksList[trackIndex]
 		if(found){
 			console.log("FOUND: " + track)
 			if(!isEmpty(track)){
@@ -311,7 +447,9 @@ function next() {
 	}
 
 	if(isEmpty(nextTrack)){
-		nextTrack = currentTrack = fullTracksList[0]
+		console.log("CURRENT TRACKS LIST: ")
+		console.log(currentTracksList)
+		nextTrack = currentTrack = currentTracksList[0]
 	}
 	console.log("NEXT TRACK: " + JSON.stringify(nextTrack))
 	play(nextTrack,true)
@@ -319,23 +457,42 @@ function next() {
 	return true
 }			
 
+function showHideAlert(msg = ""){
+	showAlert = !showAlert;
+	backgroundBaseColor = "255,233,44"
+	backgroundColor = showAlert ? 'rgba(' + backgroundBaseColor + ',.7)' : 'rgba(' + backgroundBaseColor + ',0)';
+	opacity = showAlert ? 1 : 0
+	ctop = showAlert ? "300px" : "-1000px"
+	alertFrame = document.querySelector("#alert")
+	alertFrame.style.backgroundColor = backgroundColor
+	alertFrame.style.opacity = opacity
+	alertFrame.style.top = ctop
+	alertFrame.style.color = "#454545"
+	alertFrame.innerHTML = msg + "<div style='margin-top: 50px;font-size: 14pt;font-weight: bold;'>Click on any yellow part to close!</div>"
+	//alertFrame.style.zIndex = "-100"
+}
+
 function addToActivePlaylist(encoded){
 	track = Base64.decode(encoded)
 	var id = 1
 	if(track != undefined && track != null){
-		activePlaylist.addTrack(JSON.parse(track))
-		for( i in Playlists ){
-			index = parseInt(i)
-			id = index + 1
-			targetPL = Playlists[index]
-			if(targetPL.name == activePlaylist.name){
-				Playlists[index] = activePlaylist
-				break
-			}
+		if(! activePlaylist.addTrack(JSON.parse(track)) ){
+			showHideAlert("This music is already included on playlist!")
 		}
-		Playlists[i].render("tab" + id)
-/*		console.log("ACTIVE PLAY LIST: " + JSON.stringify(activePlaylist))
-		console.log("PLALISTS[i]: " + JSON.stringify(Playlists))*/
+		else {
+			for( i in Playlists ){
+				index = parseInt(i)
+				id = index + 1
+				targetPL = Playlists[index]
+				if(targetPL.name == activePlaylist.name){
+					Playlists[index] = activePlaylist
+					break
+				}
+			}
+			Playlists[i].render("tab" + id)
+	/*		console.log("ACTIVE PLAY LIST: " + JSON.stringify(activePlaylist))
+			console.log("PLALISTS[i]: " + JSON.stringify(Playlists))*/
+		}
 	}
 }
 
@@ -362,14 +519,16 @@ function genList(tracks,reference) {
 						for(trackIndex in sources[artist][album]){
 							track = sources[artist][album][trackIndex]
 							pseudoTrackid = getTrackPseudoId(track)
+							//markId = pseudoTrackid + 'mark'
 							trackNameChanged = track.trackName
 							encodedData = Base64.encode(JSON.stringify(track))
 							if(trackNameChanged.length > 40){							
 								trackNameChanged = track.trackName.substring(0,40) + ' . . . ';
 							}
 							listStr += '				<li class="track" title="' + track.trackName + '">'
-							listStr += "<div class='track-matters'  > <div class='track-matters-link'><a title='" + track.trackName + "' href='javascript:' id=" + pseudoTrackid + " onclick=\"playAndMark(\'" + encodedData + "\')\" >" + trackNameChanged + "</a> </div>"
+							listStr += "<div class='track-matters'> <div class='track-matters-link'><a title='" + track.trackName + "' href='javascript:' id=" + pseudoTrackid + " onclick=\"playAndMark(\'" + encodedData + "\')\" trackData='" + encodedData + "' >" + trackNameChanged + "</a> </div>"
 							listStr += "<div class='track-matters-actions'> <a href='javascript:void(0)' title='add track to active playlist' onclick=\"addToActivePlaylist(\'" + encodedData + "\')\" > + </a></div>"
+							//listStr += "<div class='track-matters-actions'> <input type='checkbox' class='tree-track' id='" + markId + "'  /><label for='" + markId + "' >M</label> </div>"
 							listStr += '				</li>'
 						}
 						listStr += '				</ul>'
@@ -380,7 +539,7 @@ function genList(tracks,reference) {
 				listStr += '	</li>'
 			}
 			listStr += '</ul>'
-		
+
 			break;
 		case "album": break;
 

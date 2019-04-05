@@ -23,13 +23,23 @@ function showHideSearchResults(force){
 			showHideSearch = force
 		}
 		console.log("showHideSearch: " + showHideSearch)
-		display = showHideSearch ? 'block' : 'none'
+		if(showHideSearch){
+			display = 'block'
+			zIndex =  10 
+		}
+		else {
+			display = 'none'
+			zIndex = 0
+		}
 		console.log("display: " + display)
 		document.querySelector('#search-results').style.display=display
+		document.querySelector('#fixed-controllers').style.zIndex=zIndex
 }
 
 //adding events for search - keydown
 searchElement.addEventListener('keydown',function(e){
+
+
 	word = document.querySelector('#search').value;
 	//checking tab
 	switch(e.keyCode){
@@ -37,6 +47,7 @@ searchElement.addEventListener('keydown',function(e){
 			word = ''								
 			document.querySelector('#search').value = '';
 			showHideSearchResults(false);
+			e.preventDefault();
 			break;
 		case 13:
 			if(word.length >= 3){
@@ -54,9 +65,10 @@ searchElement.addEventListener('keydown',function(e){
 			}
 			break;
 	}
-})
+},false)
 
 searchElement.addEventListener('keyup',function(e){
+	
 	word = document.querySelector('#search').value
 	console.log("keyup word: " + word)
 
@@ -70,7 +82,7 @@ searchElement.addEventListener('keyup',function(e){
 
 
 	console.log(word)
-})
+},false)
 
 
 function getResults(word){
@@ -208,15 +220,14 @@ function scrollToTarget(divId,targetId){
 	element = document.getElementById(targetId)
 	console.log(element)
 	browser = checkBrowser()
-	element.style.textDecoration = 'underline'
-	element.style.textDecorationColor = 'green'
+	element.style.textDecoration = 'none'
 	element.style.color = 'darkgreen'
 	
 	if( browser != 'Firefox'){
 		element.scrollIntoView('nearest');
 	}
 	else {
-		// Not working in Chrome. Fuck IE!
+		// Not working on Chrome. 
 		element.scrollIntoView({behavior: "smooth", block: "center", inline: "nearest"});
 	}
 }

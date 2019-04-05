@@ -1,3 +1,35 @@
+#! /usr/bin/perl
+
+=head1 NAME
+
+  link_creator.pl
+
+=head1 VERSION
+
+  v0.0.15
+
+=head1 DESCRIPTION
+
+  This is a script that helps to normalize some patterns of track names. The idea is run a music directory tree 
+  and build a list in JSON format with all tracks that it finds. 
+
+=head1 USE
+
+  perl link_creator.pl
+
+=head1 AUTHOR
+
+  Andre Carneiro L<mail:andregarciacarneiro@gmail.com>
+
+=head1 LICENSE
+
+  Copyright 2019 Andre Garcia Carneiro
+
+  You can copy and distribute this code for non-commercial purporses only!
+
+=cut
+
+
 use strict;
 use warnings;
 use feature qw/say/;
@@ -102,12 +134,6 @@ sub main {
         # Removing extension from track name
         $track =~ s/\.(mp3|flac|ogg)$//;
         
-        # Trying to get the supposed sequence
-        my $supposedSequence;
-        $supposedSequence = $1 if $track =~ /^(\d+).*?$/;
-        $supposedSequence = '' if !defined($supposedSequence);
-        $supposedSequence = int($supposedSequence) if $supposedSequence =~ /^\d+$/;
-        
         # Normalizing(if is possible) track name, album and artist
         $album =~ s/\(|\[|\)|\]//g;
         $album =~ s/\-/ /g;
@@ -116,6 +142,9 @@ sub main {
         $album =~ s/\./ /g;
         $album =~ s/^\s+//;
         $album =~ s/\s+$//;
+        my $pattern = qr/^$artist[^\d]+(\d{1,2})(\s+|\.|\-)+(.+?)$/;
+        my ($trackInfo) = ($3) if $track =~ /$pattern/;
+        $track =~ s/$pattern/$1$2 /;
         $track =~ s/\(|\[|\)|\]/ /g;
         $track =~ s/\-/ /g;
         $track =~ s/\./ /g;
@@ -123,11 +152,19 @@ sub main {
         $track =~ s/^\s+//;
         $track =~ s/\s+$//;
         $track =~ s/(\s{2}+|\s{3}+)/ /;
-        my $pattern = qr/^$artist[^\d]+(\d{1,2})(\s+|\.|\-)+.+?$/;
-        $track =~ s/$pattern/$1$2 /;
+        
+        # if the results of normalization is just a number, concatenate track info(supposed track info)
+        if($track =~ /^\d+$/){
+          $track .= " $trackInfo";
+        }        
+
+        # Trying to make easier to get the supposed sequence of tracks
+        my $supposedSequence;
+        $supposedSequence = $1 if $track =~ /^(\d+).*?$/;
+        $supposedSequence = '' if !defined($supposedSequence);
+        $supposedSequence = int($supposedSequence) if $supposedSequence =~ /^\d+$/;
 
         # Creating a basic data structure
-        
         my $link_struct = {
           "url" => $l,
           "artist" => $artist,
@@ -142,6 +179,7 @@ sub main {
         push @{$struct->{$artist}->{$album}} , $link_struct;
         my $lastItem = $#List;
         # TODO Estudar um jeito mais eficiente.
+        say "SUPPOSED_SEQUENCE($artist): $supposedSequence";
         if( "$supposedSequence" =~ /^\d+$/ ){  
           # getting an auxiliar structure when key is the supposed sequency number of the track
           foreach my $t(@{$struct->{$artist}->{$album}}){
@@ -175,24 +213,9 @@ sub main {
   say "Filtered tracks found: $filteredTracksCounter";
   say "Total of found tracks: $index";
   
-  say "ordering music if is possible!";
-
   say "Saving on 'list-new.json' file!";
   say $fh JSON::XS->new->pretty(1)->encode($struct) ;
   
-  # # backup old list
-  # say "Backing up the old list";
-  # my $now = DateTime->now(time_zone => 'local');
-  # $now = $now->strftime("%Y%m%d%H%M%S");
-  # my $newFile = sprintf '%s%s','list-backup-',$now;
-  # $newFile .= '.json';
-  # `mv resources/list.json resources/$newFile`;
-  # say "backup saved at resources/$newFile";
-
-  # # moving new file
-  # `mv list-new.json resources/list.json`;
-
-
   say "All done!";
 }
 

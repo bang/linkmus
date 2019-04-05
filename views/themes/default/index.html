@@ -7,6 +7,7 @@
 	</head>
 	
 	<body>
+
 		<div id="fixed-controllers" >
 			<div class="top" id="cover-thumb" >
 
@@ -52,7 +53,8 @@
 
 			</div>
 		
-
+			<div class="alert-background" id="alert" ></div>
+			
 			<div id="search-box"> 
 				Search:
 				<div id="search-reduced" >
@@ -61,12 +63,19 @@
 							<div id="search-results"></div>
 					
 				</div>
-				
+
+			</div>
+
+			<div class="marked-control">
+				<div id="marked-display"><bold>Marked: <div id="marked-counter"> 0</div> </bold></div>
+				<div class="action" id='marked-add'> <p><a class="marked" href='javascript:' >add all to playlist</a></p></div>
 			</div>
 			
 
 		</div>
+		
 		<div class="top-spacer"></div>
+		
 		<div id="cover-big">
 			<div id="cover-big-transparency" >
 				<div id="list"></div>
@@ -77,9 +86,9 @@
 					            <input type="radio" name="css3-tabstrip-0" checked="checked" id="css3-tabstrip-0-0" />
 					            <label for="css3-tabstrip-0-0" class="first">PlayList1</label>
 					            <div id="Playlist1" class="playlist-content" style="border-top: 1px solid green;" >
-					            	<table style="width:100%;background-color: rgba(100,100,100,.7);">
+					            	<table class="playlist">
 					            		<thead>Playlist 1</thead>
-					            		<tr><th>Index</th><th>Artist</th><th>Album</th><th>Track</th><th>Year</th></tr>
+
 					            	</table>
 					            </div>
 					        </li>
@@ -87,9 +96,9 @@
 					            <input type="radio" name="css3-tabstrip-0" id="css3-tabstrip-0-1" />
 					            <label for="css3-tabstrip-0-1">PlayList2</label>
 					            <div id="Playlist2" class="playlist-content" style="border-top: 1px solid green;" >
-				            		<table style="width:100%;background-color: rgba(100,100,100,.7);">
+				            		<table class="playlist">
 					            		<thead>Playlist 2</thead>
-					            		<tr><th>Index</th><th>Artist</th><th>Album</th><th>Track</th><th>Year</th></tr>
+
 					            	</table>
 					            </div>
 					        </li>
@@ -97,9 +106,9 @@
 					            <input type="radio" name="css3-tabstrip-0" id="css3-tabstrip-0-2" />
 					            <label for="css3-tabstrip-0-2">PlayList3</label>
 					            <div id="Playlist3" class="playlist-content" style="border-top: 1px solid green;" >
-					            	<table style="width:100%;background-color: rgba(100,100,100,.7);">
+					            	<table class="playlist">
 					            		<thead>Playlist 3</thead>
-					            		<tr><th>Index</th><th>Artist</th><th>Album</th><th>Track</th><th>Year</th></tr>
+
 					            	</table>
 					            </div>
 					        </li>
@@ -108,6 +117,8 @@
 				</div>
 			</div>
 		</div>
+
+
 		<!-- <script src="https://apis.google.com/js/platform.js" async defer></script> -->
 		<script src="js/util.js"></script>
 		<script src="js/search.js"></script>
@@ -126,6 +137,7 @@
 				console.log(current)
 				element.innerHTML = current
 			}*/
+
 		</script>
 
 	</body>
