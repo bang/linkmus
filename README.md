@@ -15,7 +15,7 @@ The main idea is have a music repository, (in my case, a NFS mount point). Then,
 
 ## Version
 
-v0.0.4-rc1
+v0.0.4
 
 
 
@@ -165,6 +165,4 @@ Copyright 2019 André Garcia Carneiro
 You can copy, modify and distribute just for **non-commercial** purposes.
 
 
-
-Copyright 2019 André Garcia Carneiro
 
