@@ -5,6 +5,7 @@ Extreme simplory music player wrote in Vanilla Javascript. But, works!
 
 ## Description
 
+<<<<<<< HEAD
 If you have the desire to have your own music source to learn anywhere I have one of possible but simple solution. 
 
 
@@ -134,7 +135,7 @@ v0.0.4-rc1
 
 * Limited playlist support. Just three playlists can be created and no one can be saved yet
 
-* 'Smooth' search engine doesn't working in Chrome yet. But works!
+* 'Smooth' scrolling after search results doesn't working in Chrome yet. Just 'jump' to results!
 
   
 
@@ -142,7 +143,7 @@ v0.0.4-rc1
 
 * player timeline animation is not tottaly right.
 
-* When NFS fails everything is freezing. 
+* Everything freeze if tree of music loading fails;
 
 * Search fails in some cases on Firefox(working at)
 
@@ -162,10 +163,9 @@ Andre Garcia Carneiro bang@github.com
 Copyright 2019 André Garcia Carneiro
 
 
-
 You can copy, modify and distribute just for **non-commercial** purposes.
 
 
 
-
+Copyright 2019 André Garcia Carneiro
 
