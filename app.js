@@ -4,7 +4,7 @@ const app = express();
 const router = express.Router();
 
 const path = __dirname + '/views/';
-const port = 80;
+var port = process.env.LINKMUSIK_HTTP_PORT || 8088;
 
 
 router.use(function (req,res,next) {
@@ -16,9 +16,6 @@ router.get('/', function(req,res){
   res.sendFile(path + 'index.html');
 });
 
-router.get('/new-skeleton', function(req,res){
-  res.sendFile(path + 'new-skeleton.html');
-});
 
 // declare public directory to be used as a store for static files
 app.use('/mp3', express.static(__dirname + '/mp3'));

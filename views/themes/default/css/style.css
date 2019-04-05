@@ -57,13 +57,11 @@ table {
 }
 
 
-
-
 div.top-spacer {
 	display: table-cell;
 	height: 25vh;
 	width: 100vw;
-	background-color: #454545;
+	background-color: #252525;
 }
 
 div.top {
@@ -528,7 +526,7 @@ div.alert-text {
 /* PLAYLIST MATTERS */
 table.playlist {
 	width:100%;
-	background-color: rgba(100,100,100,0.7);
+	background-color: rgba(100,100,100,0.3);
 	border-collapse: collapse;
 }
 

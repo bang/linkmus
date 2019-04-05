@@ -100,8 +100,8 @@
 .css3-tabstrip input[type="radio"] + label
 {
     margin: 0;
-    padding: 0 48px;
-    margin-left: 10px;
+    padding: 0 28px;
+    margin-left: 2px;
     line-height: 32px;
     /*background: transparent;*/
     color: #666666;

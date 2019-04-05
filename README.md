@@ -1,5 +1,5 @@
 # linkmusK
-Extreme simplory music player wrote in Vanilla Javascript. But, works!
+Extreme simpleton music player wrote in Vanilla Javascript. But, works!
 
 
 
@@ -16,6 +16,12 @@ The main idea is have a music repository, (in my case, a NFS mount point). Then,
 ## Version
 
 v0.0.4
+
+
+
+## Version Status
+
+unstable
 
 
 
@@ -118,7 +124,7 @@ v0.0.4
 
    * The artist name
    * The Album name
-   * track name with the sequence number at the beginning of name
+   * track name with the sequence number at the beginning of the name
 
    
 
@@ -142,11 +148,51 @@ v0.0.4
 
    
 
-   And the answer **yes!** You need to have the index number that contain the sequence information of the track **at the beginning** of the track name!!! 
+   And the answer **yes!** It is **required** to have the index number that contain the sequence information of the track **at the beginning** of the track name!!! 
 
    
 
-   Can be mixed with other information, but must start with the number. Otherwise is not guaranteed that sequence will be ok nor the track name. 
+   The sequence information can be mixed with other information, but must start with the number. Otherwise is not guaranteed that sequence will be ok nor the track name. 
+
+   
+
+   example of file output
+
+   
+
+   ```json
+   {
+      "Anthrax" : {
+         "Fistful Of Metal" : [
+            {
+               "album" : "Fistful Of Metal",
+               "cover-thumb" : "mp3/Anthrax/1984 - Fistful Of Metal/cover-thumb.png",
+               "year" : "1984",
+               "supposedSequence" : "1",
+               "trackName" : "01  Deathrider",
+               "artist" : "Anthrax",
+               "cover-big" : "mp3/Anthrax/1984 - Fistful Of Metal/cover-big.png",
+               "url" : "mp3/Anthrax/1984 - Fistful Of Metal/01 - Deathrider.mp3",
+               "fingerprint" : "QW50aHJheEZpc3RmdWwgT2YgTWV0YWwwMSAtIERlYXRocmlkZXI="
+            },
+            {
+               "cover-thumb" : "mp3/Anthrax/1984 - Fistful Of Metal/cover-thumb.png",
+               "year" : "1984",
+               "supposedSequence" : "2",
+               "album" : "Fistful Of Metal",
+               "artist" : "Anthrax",
+               "cover-big" : "mp3/Anthrax/1984 - Fistful Of Metal/cover-big.png",
+               "trackName" : "02  Metal Thrashing Mad",
+               "url" : "mp3/Anthrax/1984 - Fistful Of Metal/02 - Metal Thrashing Mad.mp3",
+               "fingerprint" : "QW50aHJheEZpc3RmdWwgT2YgTWV0YWwwMiAtIE1ldGFsIFRocmFzaGluZyBNYWQ="
+            }, ...
+      }, ...
+   }   
+   ```
+
+   
+
+   
 
    
 
@@ -174,22 +220,32 @@ v0.0.4
 
 ## Notes for this version
 
-* Playlist system was born finally! But is not possible to save playlist yet. Working at
+* Playlist system was born finally! But is not possible to save playlist yet. Working at;
+
+* This is a **experimental** project! **IS NOT SECURE**  to expose it on Internet!
 
   
 
 
-## Limitations
+## Limitations/Deficiencies
 
 * Pseudo-theme support. Working at
 
 * Poor documentation
 
+* No BDD nor TDD so, poor tested
+
 * No mobile support
 
 * Limited playlist support. Just three playlists can be created and no one can be saved yet
 
-* 'Smooth' scrolling after search results doesn't working in Chrome yet. Just 'jump' to results!
+* 'Smooth' scrolling after search results not supported on Chromium(and variations) yet. Just 'jump' to results!
+
+* No external database. Just localStorage database. Later...
+
+* No authentication
+
+* No SSL
 
   
 
