@@ -1,28 +1,23 @@
 # linkmusK
-	Extreme simplory music player wrote in Vanilla Javascript. But works... 
+Extreme simplory music player wrote in Vanilla Javascript. But, works!
+
+
 
 ## Description
 
-	Since that I decide that I'm done with "free" music radios I've been building this 
-	modest but sincer music player for my and my family's enjoyment.
-	
-	I hope nothing special, just enough and if possible with a cool design(according my taste)
-	
-	The system is very simple! There is a JSON file with all music. System loads this file
-	and builds a "tree of music" hierarchically divided by artist > album > track. Everything else is
-	around of this including searching engine, playlists and music player itself.
-	
-	The music player can receive music from the main tree or from **active playlist**. But, if there is no 
-	active playlist set player starts from the first music of the "tree".
-	
-	Playlists is a list of tracks choosed from the "tree". For now it's possible just 3 playlists. In the
-	sooner future I hope this can limit grows to 8. 
-	
-	
+If you have the desire to have your own music source to learn anywhere I have one of possible but simple solution. 
+
+
+
+The main idea is have a music repository, (in my case, a NFS mount point). Then, I ran a Perl script to create a list of music that generates a JSON list. This list is put on directory for Javascript load it and transform everything in HTML. Simple, huh?
+
+
 
 ## Version
 
-v0.0.3-rc3
+v0.0.4-rc1
+
+
 
 ## Features
 
@@ -32,9 +27,9 @@ v0.0.3-rc3
 
 * music list
 
-* NFS mapping. Not required
+* playlist partial support(create and play it.)
 
-* Poor documentation
+* NFS mapping. Not required
 
   
 
@@ -77,11 +72,37 @@ v0.0.3-rc3
 
     
 
-  * Open app.js and config the port. 
+  * Create two directories
+
+    `mkdir resources && mkdir mp3`
+
+    The **resources** directory will contain your music list(JSON)
 
     
 
-  * exec `forever app.js`
+    The **mp3** directory obviously will contain your music files
+
+    
+
+  * If you're using *NFS*, export "LINKMUSK_NFS_ROOT" var to your music root
+
+    `export LINKMUSK_NFS_ROOT=192.168.1.103/some/path/to/music`
+
+    Now, run *get-music* script!
+
+    `./get-music`
+
+    
+
+  * export "LINKMUSK_HTTP_PORT"
+
+    `export LINKMUSIK_HTTP_PORT=80`
+
+    
+
+  * Finnaly, run the application using *forever* agent 
+
+    `forever app.js`
 
     
 
@@ -95,45 +116,23 @@ v0.0.3-rc3
     
 
 
-3. Mapping NFS(Linux only)
 
-  
-
-  * Enable NFS support on your NFS provider(NAS or wherever...), and don't forget to configure the permissions!
-
-  * open 'get-music' script and edit '$mountpoint' variable
-
-  * run `./get-music` (root privileges/sudo is required)
-
-  * To generate a new JSON music list, run `perl link_creator.pl`
-
-  * move 'list-new.json' file to 'resources' directory
-
-    
-
-  
 ## Notes for this version
 
-* Searching engine tested on Chrome and Firefox(has issues yet. But it's much better!)
-
-* Appearance on default theme(actually is the only theme right now) is better
+* Playlist system was born finally! But is not possible to save playlist yet. Working at
 
   
 
 
 ## Limitations
 
-* Less ugly!
-
 * Pseudo-theme support. Working at
 
-* Less ugly at the moment... 
-
-* Theme support must be better! Trying to improve my CSS
+* Poor documentation
 
 * No mobile support
 
-* No playlist support(working at)
+* Limited playlist support. Just three playlists can be created and no one can be saved yet
 
 * 'Smooth' search engine doesn't working in Chrome yet. But works!
 
@@ -147,6 +146,8 @@ v0.0.3-rc3
 
 * Search fails in some cases on Firefox(working at)
 
+* A yellow div is appearing from nowhere when user click in some regions. Investigating
+
   
 
 
@@ -158,9 +159,13 @@ Andre Garcia Carneiro bang@github.com
 
 ## License
 
+Copyright 2019 André Garcia Carneiro
+
+
+
 You can copy, modify and distribute just for **non-commercial** purposes.
 
 
 
-Copyright 2019 André Garcia Carneiro
+
 

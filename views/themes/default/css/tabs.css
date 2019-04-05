@@ -127,7 +127,7 @@
 
 .css3-tabstrip input[type="radio"]:checked + label
 {
-    z-index: 1;
+/*    z-index: 1;*/
 /*    background: transparent;*/
     border-bottom: none;
     cursor: default;

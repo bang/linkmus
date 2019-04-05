@@ -53,7 +53,7 @@ table {
 #fixed-controllers{
 	display: table-cell;
 	position:fixed;
-	z-index:10;
+	/*z-index:10;*/
 }
 
 
@@ -74,6 +74,8 @@ div.top {
 
 #cover-thumb {
 	background-color: darkgray;
+	background-size: 100% 100%;
+	background-repeat: no-repeat;
 /*	background-image: url('/mp3/Exodus/01 Studio/2005-Shovel Headed Kill Machine/cover-thumb.png');*/
 	width: 10vw;
 	min-width: 170px;
@@ -166,7 +168,7 @@ th.results {
     background-color:#494949;
     color: #DBDBDB;
     border-right: 2px solid green;
-    z-index:5;
+    /*z-index:1000000;*/
 }
 
 th.last {
@@ -271,7 +273,7 @@ border-radius: 10px;
 	background-attachment: fixed;
 	background-position: bottom center;
 	background-repeat: no-repeat;
-	z-index: -100;
+	/*z-index: -100;*/
 }
 
 #cover-big-transparency{
@@ -282,7 +284,7 @@ border-radius: 10px;
 	background-size: 100vw 100vh;
 	background-attachment: fixed;
 	background-position-y: 220px;
-	background-color: rgba(60,60,60,.7);	
+	background-color: rgba(60,60,60,.95);	
 	
 }
 
@@ -296,13 +298,14 @@ border-radius: 10px;
 	overflow-x: hidden;
 	-moz-scroll-behavior: smooth;
 	display: inline-block;
-	padding-top: 10px;
+	margin-top: 20px;
+
 }
 
 
 #play-list-area {
 	padding-left: 1vw;
-	padding-top: 10px;
+	margin-top: 20px;
 	color: #B6B6B6;
 	width: 70vw;
 	display: inline-block;	
@@ -316,6 +319,16 @@ border-radius: 10px;
 	border-image: linear-gradient(to right,green 0%,transparent 80%);
 	border-image-slice: 1;*/
 	border-top: 2px solid green;
+	height: 68vh;
+}
+
+
+div.playlist-actions {
+	display: inline-block;
+}
+
+div.playlist-action{
+	display: inline-block;
 }
 
 .list-artist-title {
@@ -325,6 +338,7 @@ border-radius: 10px;
 
 
 
+/* TREE OF MUSIC MATTERS */
 
 li.album {
 	padding-top: 0;
@@ -353,26 +367,50 @@ li.track {
 	padding-bottom: 1.5%;
 	margin-left: -40px;
 	transition: .3s;
+	background-image: none;
 }
 
-li.track >a {
-	z-index: 1;
+div.track-matters {
+	margin: 0;
+	width: 98%;
+	height: 100%;
+	display: block;
+}
+
+div.track-matters-link, div.track-matters-actions{
+	display: inline-block;
+}
+
+div.track-matters-link {
+	width: 40%;
+}
+
+div.track-matters-actions {
+
+}
+
+
+
+
+
+li.track * a  {
+	/*z-index: 1;*/
 	transition: .3s;
 	background-image: none;
 }
 
-li.track > a:link {
+li.track * a:link {
 	text-decoration: none;
 	color: #111111;
 	background-image: none;
 }
 
-li.track > a:visited {
+li.track * a:visited {
 	text-decoration: none;
 	color: yellow;
 }
 
-li.track > a:hover {
+li.track * a:hover {
 	text-decoration: none;
 	color: #B6B6B6;
 }
@@ -384,8 +422,192 @@ li.track:hover{
 /*	background-position-y: 15px;*/
 	position: relative;
 	background-size: 50% 90%;
-	
+	opacity: 1;
 }
+
+
+li.marked:hover{
+	background-image: url("/img/full_list_highlight.png");
+	background-repeat: no-repeat;
+	background-position-x: -10px;
+/*	background-position-y: 15px;*/
+	position: relative;
+	background-size: 50% 90%;
+	opacity: 1;
+}
+
+li.marked{
+	background-image: url("/img/full_list_selected.png");
+	background-repeat: no-repeat;
+	background-position-x: -10px;
+/*	background-position-y: 15px;*/
+	position: relative;
+	background-size: 50% 90%;
+	opacity: 1;
+}
+
+div.marked-control{
+
+	width: 170px;
+  	height: 70px;
+  	border-radius: 0 0 50% 50%;
+  	font-size: 10pt;
+  	font-weight: bolder;
+  	text-align: center;
+	background-color: #242424;
+	/*background-color: yellow;*/
+	color: green;
+	margin-top: -60px;
+	opacity: 0;
+	transition: .3s;
+}
+
+
+div.marked-control:hover{
+	background-color: rgba(36,36,36,.8);
+}
+
+div#marked-display{
+	transition: .3s;
+}
+
+div.action > a {
+	color: green;
+}
+
+a.marked:link,
+a.marked:visited,
+a.marked:hover {
+	color: green;
+	transition: .3s;
+}
+
+a.marked:hover {
+	font-size: 12pt;	
+	transition: .3s;
+	text-shadow: 1px 1px 3px green;
+}
+
+
+div#marked-counter {
+	display: inline-block;
+	font-weight: bolder;
+	font-size: 16pt;
+	transition: .3s;
+}
+
+div.markded-action{
+	font-size: 4pt;
+	transition: .3s;
+}
+
+
+/* TREE MARK CHECKBOX */
+
+/*label.track {
+		
+	border: 1px solid red;
+}
+
+#list input[type="checkbox"].tree-track {
+    opacity: 0;
+    transition: .3s;
+}
+
+#list input[type=checkbox].tree-track + label {
+	margin: 0;
+	padding:0;
+    line-height: 32px;
+    text-align: center;
+    border-top-left-radius: 4px;
+    border-top-right-radius: 13em 7em;         
+    border-color: green;
+    cursor: pointer;
+    -moz-user-select: none;
+    -webkit-user-select: none;
+    user-select: none;
+    transition: .3s;
+}
+
+
+#list input[type="checkbox"].tree-track:checked + label {
+    color: #DBDBDB;
+    transition: .3s;
+    background-image: url("/img/full_list_selected.png");
+}
+*/
+
+
+
+div.alert-background {
+	width: 100vw;
+	height: 11vw;
+	/*background-image: linear-gradient(90deg, yellow 0%, #6d6204 80%);*/
+	position: absolute;
+	top: -100px;
+	text-align: center;
+	font-size: 40pt;
+	padding-top: 6%;
+	background-color: rgba(109,98,4,0);
+	opacity:0;
+	transition: .3s
+}
+
+
+div.alert-text {
+	font-size: 40pt;
+	width: 100%;
+	border: 1px solid red;
+	margin-top: 7%;
+	color: white;
+	position: relative;
+	transition: .3s
+}
+
+
+/* PLAYLIST MATTERS */
+table.playlist {
+	width:100%;
+	background-color: rgba(100,100,100,0.7);
+	border-collapse: collapse;
+}
+
+tr.playlist {
+	border: none;
+	height: 3vh;
+	transition: .3s;
+}
+
+tr.playlist:hover {
+	border: none;
+	filter: invert();
+	background-color: rgba(0,193,68,0.7);
+	color: #242424;
+	cursor: pointer;
+}
+
+th.playlist {
+	text-align: left;	
+	font-size: 12pt;
+	font-weight: bold;
+	background-color: #252525;
+	border: none;
+	height: 5vh;
+	padding: 1.5%;
+	position: sticky;
+	top:0;
+}
+
+th.playlist th.first {
+	left-padding: 2px;
+}
+
+th.playlist th.last {
+	right-padding: 2px;
+}
+
+
+
 
 
 

@@ -23,6 +23,8 @@ router.get('/new-skeleton', function(req,res){
 // declare public directory to be used as a store for static files
 app.use('/mp3', express.static(__dirname + '/mp3'));
 
+app.use('/mp3Test', express.static(__dirname + '/mp3Test'));
+
 // JS code( non-theme )
 app.use('/js', express.static(__dirname + '/js'))
 

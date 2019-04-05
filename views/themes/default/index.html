@@ -3,17 +3,11 @@
 	<head>
 		<link rel="stylesheet" href="css/style.css">
 		<link rel="stylesheet" href="css/tabs.css">
-		<script src="js/playlist.js"></script>
-		<script src="js/util.js"></script>
+		<!-- <meta name="google-signin-client_id" content="YOUR_CLIENT_ID.apps.googleusercontent.com"> -->
 	</head>
 	
 	<body>
-		<script>
-			playlist = new Playlist()
-			playlist.store()
-			anotherPlaylist = playlist.retrieve(playlist.name)
-			console.log(anotherPlaylist)
-		</script>
+
 		<div id="fixed-controllers" >
 			<div class="top" id="cover-thumb" >
 
@@ -59,7 +53,8 @@
 
 			</div>
 		
-
+			<div class="alert-background" id="alert" ></div>
+			
 			<div id="search-box"> 
 				Search:
 				<div id="search-reduced" >
@@ -68,37 +63,82 @@
 							<div id="search-results"></div>
 					
 				</div>
-				
+
+			</div>
+
+			<div class="marked-control">
+				<div id="marked-display"><bold>Marked: <div id="marked-counter"> 0</div> </bold></div>
+				<div class="action" id='marked-add'> <p><a class="marked" href='javascript:' >add all to playlist</a></p></div>
 			</div>
 			
 
 		</div>
-		<div class="top-spacer">FUCK</div>
+		
+		<div class="top-spacer"></div>
+		
 		<div id="cover-big">
 			<div id="cover-big-transparency" >
 				<div id="list"></div>
 				<div id="play-list-area">
 					<div class="css3-tabstrip">
 					    <ul>
-					        <li>
-					            <input type="radio" name="css3-tabstrip-0" checked="checked" id="css3-tabstrip-0-0" /><label for="css3-tabstrip-0-0" class="first">PlayList1</label>
-					            <div id="playlist-1" class="playlist-content" style="border-top: 1px solid green;" >Playlist 1</div>
-					        </li><li>
-					            <input type="radio" name="css3-tabstrip-0" id="css3-tabstrip-0-1" /><label for="css3-tabstrip-0-1">PlayList2</label>
-					            <div id="playlist-2" class="playlist-content" style="border-top: 1px solid green;" >Playlist 2</div>
-					        </li><li>
-					            <input type="radio" name="css3-tabstrip-0" id="css3-tabstrip-0-2" /><label for="css3-tabstrip-0-2">PlayList3</label>
-					            <div id="playlist-3" class="playlist-content" style="border-top: 1px solid green;" >Playlist 3</div>
+					        <li id="tab1">
+					            <input type="radio" name="css3-tabstrip-0" checked="checked" id="css3-tabstrip-0-0" />
+					            <label for="css3-tabstrip-0-0" class="first">PlayList1</label>
+					            <div id="Playlist1" class="playlist-content" style="border-top: 1px solid green;" >
+					            	<table class="playlist">
+					            		<thead>Playlist 1</thead>
+
+					            	</table>
+					            </div>
+					        </li>
+					        <li id="tab2">
+					            <input type="radio" name="css3-tabstrip-0" id="css3-tabstrip-0-1" />
+					            <label for="css3-tabstrip-0-1">PlayList2</label>
+					            <div id="Playlist2" class="playlist-content" style="border-top: 1px solid green;" >
+				            		<table class="playlist">
+					            		<thead>Playlist 2</thead>
+
+					            	</table>
+					            </div>
+					        </li>
+					        <li id="tab3">
+					            <input type="radio" name="css3-tabstrip-0" id="css3-tabstrip-0-2" />
+					            <label for="css3-tabstrip-0-2">PlayList3</label>
+					            <div id="Playlist3" class="playlist-content" style="border-top: 1px solid green;" >
+					            	<table class="playlist">
+					            		<thead>Playlist 3</thead>
+
+					            	</table>
+					            </div>
 					        </li>
 					    </ul>
 					</div>
 				</div>
 			</div>
 		</div>
-		
+
+
+		<!-- <script src="https://apis.google.com/js/platform.js" async defer></script> -->
+		<script src="js/util.js"></script>
 		<script src="js/search.js"></script>
+		<script src="js/playlist.js"></script>
 		<script src="js/player.js"></script>
+
 		
 		
+		<script>
+			//test,experiments etc
+			/*element	= document.querySelector('#play-list-area * table > tbody')
+			current = element.innerHTML;
+			A = new Array('1 crap','2 craps', '3 craps')
+			for(i in A){
+				current += '<tr><td>' + A[i] + '</td></tr>';
+				console.log(current)
+				element.innerHTML = current
+			}*/
+
+		</script>
+
 	</body>
 </html>
