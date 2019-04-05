@@ -178,7 +178,7 @@ class Playlist {
 	store(){
 		// save a playlist into localStorage
 		localStorage.setItem(this.name,JSON.stringify(this))
-		itemList = localStorage.getItem('itemsList')
+		let itemsList = JSON.parse(localStorage.getItem('itemsList'))
 		
 		// mapping all playlists names in a list into localStorage
 		if(itemsList == undefined || itemsList == null){

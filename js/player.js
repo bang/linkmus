@@ -272,10 +272,8 @@ function updateMarkedCounter(criteria,value=0){
 						track = listOfMarked[key]
 						tracks.push(track)
 					}
-					console.log("TRACKS ON MARKED-ADD: ")
-					console.log(tracks)
 					activePlaylist.addTracks(tracks)
-					console.log("ACTIVE PLAYLIST")
+					activePlaylist.store()
 					console.log(activePlaylist)
 					matches = activePlaylist.name.match(/(\d)+/)
 					tabId = "tab" + matches[0]
