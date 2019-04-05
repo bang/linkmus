@@ -5,7 +5,6 @@ Extreme simplory music player wrote in Vanilla Javascript. But, works!
 
 ## Description
 
-<<<<<<< HEAD
 If you have the desire to have your own music source to learn anywhere I have one of possible but simple solution. 
 
 
