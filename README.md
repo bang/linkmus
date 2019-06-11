@@ -1,11 +1,10 @@
 # linkmusK
-Extreme simplory music player wrote in Vanilla Javascript. But, works!
-
+Extreme simplory of a remote music indexer and player for using at home. All made in Vanilla Javascript
 
 
 ## Description
 
-If you have the desire to have your own music source to learn anywhere I have one of possible but simple solution. 
+If you have the desire to have your own music source to listen from anywhere I have a mediocre and simple solution. Javascript + some http server + HTML frontend + NFS for make all acessible
 
 
 
@@ -44,7 +43,7 @@ v0.0.4
 
 
 * Linux - Debian variants if it's possible
-* Node + express + forever for backend - Again, you can use whatever you want but I made using Node.
+* Node + express + forever for backend - But, whatever... 
 * local or remote music location mapped on 'mp3' directory
 
 
@@ -65,7 +64,7 @@ v0.0.4
 
    
 
-   Now, go to project directory and run `npm install` to install **Node** dependecies
+   `cd linkmusik && npm install` to install **Node** dependecies
 
    
 
@@ -74,13 +73,12 @@ v0.0.4
    `mkdir resources && mkdir mp3`
 
    
-
    * The *resources* directory will contain your music list(JSON file called 'list.json')
    * The *mp3* directory obviously will contain your music subdirectories and files
 
    
 
-4. Map the music location
+4. Mapping the music location
 
    
 
@@ -191,6 +189,7 @@ v0.0.4
 
 * 'Smooth' scrolling after search results doesn't working in Chrome yet. Just 'jump' to results!
 
+* Environment is limited to use NFS. I should make this more dynamic.. 
   
 
 ## Bugs
