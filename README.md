@@ -1,5 +1,5 @@
 # linkmusK
-Extreme simplory of a remote music indexer and player for using at home. All made in Vanilla Javascript
+A extreme simplory remote music indexer and player for using at home. All made in Vanilla Javascript
 
 
 ## Description
