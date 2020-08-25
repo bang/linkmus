@@ -216,7 +216,7 @@ Andre Garcia Carneiro bang@github.com
 Copyright 2019 André Garcia Carneiro
 
 
-You can copy, modify and distribute just for **non-commercial** purposes.
+You can copy, modify and distribute **only for non-commercial** purposes.
 
 
 
